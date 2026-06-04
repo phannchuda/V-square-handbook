@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V Square Clinic — คู่มือพนักงานสาขา</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A96E;--gold-light:#E8D5A3;--gold-dark:#9A7340;--navy:#0D2B6B;--navy-mid:#1A3A7A;--navy-soft:#2952A3;--cream:#F5F8FF;--ivory:#EBF0FA;--red:#C0392B;--orange:#D35400;--green:#1A7A4A;--white:#FFFFFF;--text-light:#4A5D8A;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Sarabun',sans-serif;background:var(--cream);color:var(--navy);font-size:15px;line-height:1.7;}
+#role-screen{min-height:100vh;background:linear-gradient(160deg,var(--navy) 0%,var(--navy-soft) 60%,#1C3A5E 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden;}
+#role-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.12) 0%,transparent 70%);}
+.role-logo{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,5vw,42px);color:var(--white);font-weight:300;letter-spacing:2px;text-align:center;position:relative;z-index:1;}
+.role-logo span{color:var(--gold);font-weight:600;}
+.role-divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px auto;max-width:240px;position:relative;z-index:1;}
+.role-divider::before,.role-divider::after{content:'';flex:1;height:1px;background:var(--gold);opacity:0.5;}
+.role-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);}
+.role-prompt{font-size:13px;color:rgba(250,247,242,0.55);letter-spacing:1px;margin-bottom:6px;position:relative;z-index:1;text-align:center;}
+.sub-prompt{font-size:11px;color:rgba(201,169,110,0.6);margin-bottom:20px;position:relative;z-index:1;}
+.role-group-section{width:100%;max-width:860px;margin-bottom:18px;position:relative;z-index:1;}
+.role-group-label{font-size:10px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;padding-left:2px;opacity:0.8;}
+.role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;}
+.role-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(201,169,110,0.3);border-radius:12px;padding:18px 12px;text-align:center;cursor:pointer;transition:all 0.25s;color:var(--cream);}
+.role-btn:hover{background:rgba(201,169,110,0.15);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,0.25);}
+.r-icon{font-size:28px;margin-bottom:6px;display:block;}
+.r-group{font-size:9px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.r-name{font-size:12.5px;font-weight:600;color:var(--white);line-height:1.3;}
+.drag-handle{position:absolute;top:7px;right:9px;color:rgba(201,169,110,0.35);font-size:13px;cursor:grab;}
+.drag-handle:hover{color:var(--gold);}
+.role-btn.dragging{opacity:0.4;}
+.role-btn{position:relative;}
+.drag-handle{position:absolute;top:7px;right:9px;color:rgba(201,169,110,0.4);font-size:13px;cursor:grab;line-height:1;}
+.drag-handle:hover{color:var(--gold);}
+.role-btn.dragging{opacity:0.4;transform:scale(0.96);}
+.role-btn.drag-over{border-color:var(--gold);background:rgba(201,169,110,0.2);}
+.drag-hint-text{font-size:10px;color:rgba(201,169,110,0.5);text-align:center;margin-bottom:16px;position:relative;z-index:1;letter-spacing:1px;}
+.nav-tab.start-here{color:var(--gold)!important;font-weight:600;}
+#app{display:none;}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-soft) 60%,#1C3A5E 100%);color:var(--cream);padding:38px 22px 26px;position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,0.1) 0%,transparent 70%);}
+.hero-text{position:relative;z-index:1;flex:1;min-width:170px;}
+.hero-badge{display:inline-block;border:1px solid var(--gold);color:var(--gold);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 11px;margin-bottom:7px;}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(19px,4vw,30px);font-weight:300;letter-spacing:1px;color:var(--white);}
+.hero h1 span{color:var(--gold);font-weight:600;}
+.role-pill{position:relative;z-index:1;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.35);border-radius:40px;padding:9px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s;flex-shrink:0;}
+.role-pill:hover{background:rgba(201,169,110,0.22);}
+.p-icon{font-size:19px;}.p-group{font-size:9px;color:var(--gold);}.p-name{font-size:12.5px;font-weight:600;color:var(--white);}.p-change{font-size:9px;color:rgba(250,247,242,0.4);margin-top:1px;}
+.nav-strip{background:var(--navy-mid);position:sticky;top:0;z-index:100;overflow-x:auto;scrollbar-width:none;}
+.nav-strip::-webkit-scrollbar{display:none;}
+.nav-inner{display:flex;min-width:max-content;padding:0 14px;}
+.nav-tab{padding:11px 15px;font-size:12px;color:rgba(250,247,242,0.5);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all 0.2s;}
+.nav-tab:hover{color:var(--gold-light);}.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);}.nav-tab.hidden{display:none;}
+.section{max-width:900px;margin:0 auto;padding:42px 20px;display:none;}
+.section.active{display:block;animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.section-header{display:flex;align-items:center;gap:13px;margin-bottom:26px;}
+.section-icon{width:42px;height:42px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;box-shadow:0 4px 14px rgba(13,27,42,0.15);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:600;color:var(--navy);}
+.section-title small{display:block;font-family:'Sarabun',sans-serif;font-size:10px;color:var(--text-light);font-weight:400;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.role-summary{background:linear-gradient(135deg,var(--navy),#1C3A5E);border-radius:12px;padding:20px 22px;margin-bottom:22px;position:relative;overflow:hidden;}
+.role-summary::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;background:var(--gold);opacity:0.06;border-radius:50%;}
+.role-summary-title{color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.role-summary-desc{color:rgba(250,247,242,0.85);font-size:13px;line-height:1.7;margin-bottom:10px;}
+.role-duties{list-style:none;}
+.role-duties li{font-size:12.5px;color:rgba(250,247,242,0.8);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,0.07);}
+.role-duties li:last-child{border-bottom:none;}
+.role-duties li::before{content:'◆';position:absolute;left:0;color:var(--gold);font-size:7px;top:9px;}
+.role-warning{background:rgba(201,169,110,0.15);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:9px 13px;margin-top:12px;font-size:12px;color:var(--gold-light);}
+.alert-band{background:#FEF0E6;border-left:4px solid var(--orange);padding:12px 15px;border-radius:0 8px 8px 0;margin-bottom:18px;font-size:12.5px;color:#5C3A1E;}
+.alert-band.red{background:#FDECEA;border-color:var(--red);color:#5C1A1A;}
+.alert-band strong{color:var(--red);}
+.important-box{background:var(--navy);color:var(--cream);border-radius:10px;padding:17px 21px;margin:16px 0;position:relative;overflow:hidden;}
+.important-box::before{content:'';position:absolute;top:-20px;right:-20px;width:70px;height:70px;background:var(--gold);opacity:0.07;border-radius:50%;}
+.important-box h4{color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:9px;}
+.important-box ul{list-style:none;}
+.important-box ul li{font-size:12.5px;padding:4px 0 4px 15px;position:relative;color:rgba(250,247,242,0.85);border-bottom:1px solid rgba(255,255,255,0.07);}
+.important-box ul li:last-child{border-bottom:none;}
+.important-box ul li::before{content:'◆';position:absolute;left:0;color:var(--gold);font-size:7px;top:8px;}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px;margin:13px 0;}
+.info-card{background:var(--white);border-radius:10px;padding:15px;border-left:3px solid var(--gold);box-shadow:0 2px 8px rgba(13,27,42,0.06);}
+.info-card h4{font-size:12px;font-weight:600;color:var(--gold-dark);letter-spacing:0.5px;margin-bottom:8px;}
+.info-card ul{list-style:none;}
+.info-card ul li{font-size:12px;padding:3px 0 3px 13px;position:relative;color:#3A3A4A;border-bottom:1px solid rgba(0,0,0,0.04);line-height:1.5;}
+.info-card ul li:last-child{border-bottom:none;}
+.info-card ul li::before{content:'–';position:absolute;left:0;color:var(--gold);}
+.rule-card{background:var(--white);border-radius:10px;overflow:hidden;margin-bottom:13px;box-shadow:0 2px 8px rgba(13,27,42,0.06);border:1px solid rgba(201,169,110,0.18);}
+.rule-card-header{padding:12px 15px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;transition:background 0.2s;}
+.rule-card-header:hover{background:var(--ivory);}
+.rule-severity{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;letter-spacing:1px;padding:3px 8px;border-radius:20px;white-space:nowrap;}
+.sev-A{background:#FDECEA;color:var(--red);}.sev-B{background:#FEF0E6;color:#C0680D;}
+.rule-card-title{font-size:13px;font-weight:600;flex:1;color:var(--navy);}
+.rule-toggle{color:var(--gold);font-size:14px;transition:transform 0.25s;}
+.rule-toggle.open{transform:rotate(180deg);}
+.rule-card-body{padding:0 15px;max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;}
+.rule-card-body.open{max-height:1000px;padding:0 15px 15px;}
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:9px;}
+@media(max-width:500px){.do-dont{grid-template-columns:1fr;}}
+.do-list,.dont-list{border-radius:8px;padding:11px 12px;}
+.do-list{background:#F0FAF4;}.dont-list{background:#FDF0F0;}
+.do-list h4{color:var(--green);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;}
+.dont-list h4{color:var(--red);font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;}
+.do-list li,.dont-list li{list-style:none;font-size:12px;padding:3px 0 3px 17px;position:relative;line-height:1.5;border-bottom:1px solid rgba(0,0,0,0.05);}
+.do-list li:last-child,.dont-list li:last-child{border-bottom:none;}
+.do-list li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;}
+.dont-list li::before{content:'✕';position:absolute;left:0;color:var(--red);font-weight:700;}
+.gold-divider{display:flex;align-items:center;gap:10px;margin:22px 0;color:var(--gold);font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+.gold-divider::before,.gold-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold-light),transparent);}
+.flow{display:flex;flex-direction:column;margin:11px 0;}
+.flow-step{display:flex;align-items:flex-start;gap:11px;}
+.flow-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.flow-dot{width:27px;height:27px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:11px;font-weight:700;flex-shrink:0;}
+.flow-connector{width:2px;height:19px;background:linear-gradient(to bottom,var(--navy),rgba(13,27,42,0.2));margin:2px 0;}
+.flow-content{padding:3px 0 15px;}
+.flow-content strong{font-size:12.5px;color:var(--navy);display:block;}
+.flow-content span{font-size:11.5px;color:var(--text-light);}
+.kpi-bar{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.kpi-label{font-size:12px;min-width:125px;color:var(--navy);font-weight:500;}
+.kpi-track{flex:1;height:7px;background:#EEE;border-radius:4px;overflow:hidden;}
+.kpi-fill{height:100%;border-radius:4px;background:linear-gradient(to right,var(--navy),var(--gold));}
+.kpi-pct{font-size:11px;font-weight:700;color:var(--gold-dark);min-width:30px;text-align:right;}
+.footer{background:var(--navy);color:rgba(250,247,242,0.4);text-align:center;padding:22px;font-size:11px;}
+.footer span{color:var(--gold);}
+.mgr-note{background:#FFF8EC;border:1px solid rgba(201,169,110,0.4);border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:12.5px;color:#5C3A1E;}
+.mgr-note h4{color:var(--gold-dark);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.checklist-wrap{background:var(--white);border-radius:10px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(13,27,42,0.06);border:1px solid rgba(201,169,110,0.18);}
+.checklist-header{padding:12px 15px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;background:var(--navy);}
+.checklist-header:hover{background:var(--navy-mid);}
+.checklist-title{font-size:13px;font-weight:600;flex:1;color:var(--gold-light);}
+.checklist-toggle{color:var(--gold);font-size:14px;transition:transform 0.25s;}
+.checklist-toggle.open{transform:rotate(180deg);}
+.checklist-body{padding:0 15px;max-height:0;overflow:hidden;transition:max-height 0.5s ease,padding 0.3s;}
+.checklist-body.open{max-height:900px;padding:12px 15px 15px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,0.05);cursor:pointer;}
+.check-item:last-child{border-bottom:none;}
+.check-box{width:20px;height:20px;border:2px solid rgba(201,169,110,0.5);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;margin-top:1px;}
+.check-box.checked{background:var(--green);border-color:var(--green);}
+.check-box.checked::after{content:'✓';color:white;font-size:12px;font-weight:700;}
+.check-label{font-size:12.5px;color:var(--navy);line-height:1.5;}
+.check-label.checked{color:var(--text-light);text-decoration:line-through;}
+.checklist-reset{font-size:11px;color:var(--text-light);text-align:right;margin-top:8px;cursor:pointer;padding:4px 0;}
+.checklist-reset:hover{color:var(--red);}
+.sterile-box{background:#F0FAF4;border:1px solid rgba(26,122,74,0.3);border-radius:10px;padding:15px 18px;margin:14px 0;}
+.sterile-box h4{color:var(--green);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.sterile-box ul{list-style:none;}
+.sterile-box ul li{font-size:12.5px;color:#1A3A2A;padding:3px 0 3px 16px;position:relative;border-bottom:1px solid rgba(26,122,74,0.1);}
+.sterile-box ul li:last-child{border-bottom:none;}
+.sterile-box ul li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700;}
+.room-tag{background:rgba(13,43,107,0.07);border-left:3px solid var(--navy-soft);border-radius:0 8px 8px 0;padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:var(--navy);}
+.room-tag strong{color:var(--navy-soft);}
+.benefit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:13px 0;}
+.benefit-card{background:var(--white);border-radius:10px;padding:14px;border-top:3px solid var(--gold);box-shadow:0 2px 8px rgba(13,27,42,0.06);text-align:center;}
+.benefit-card .b-icon{font-size:26px;margin-bottom:6px;display:block;}
+.benefit-card .b-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+.benefit-card .b-desc{font-size:11px;color:var(--text-light);line-height:1.5;}
+.org-chart{display:flex;flex-direction:column;align-items:center;gap:0;margin:16px 0;}
+.org-level{display:flex;justify-content:center;gap:10px;position:relative;margin-bottom:0;}
+.org-node{background:var(--navy);color:var(--cream);border-radius:8px;padding:8px 16px;font-size:12px;font-weight:600;text-align:center;min-width:130px;}
+.org-node.gold{background:linear-gradient(135deg,var(--gold-dark),var(--gold));}
+.org-connector{width:2px;height:22px;background:var(--gold);margin:0 auto;}
+.org-connector-h{height:2px;background:var(--gold);flex:1;margin-top:11px;}
+.room-tag strong{color:var(--navy-soft);}
+</style>
+</head>
+<body>
+
+<div id="role-screen">
+  <div style="position:relative;z-index:1;text-align:center;margin-bottom:8px;">
+    <img src="data:image/png;base64,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"
+         style="height:60px;width:auto;object-fit:contain;filter:brightness(0) invert(1);margin-bottom:8px;display:block;margin:0 auto 8px;" 
+         alt="V Square Clinic">
+  </div>
+  <div class="role-logo">V Square <span>Clinic</span></div>
+  <div class="role-divider"><div class="role-diamond"></div></div>
+  <p class="role-prompt">เลือกตำแหน่งของคุณ</p>
+  <p class="sub-prompt">กดปุ่มตำแหน่งของคุณเพื่อเข้าสู่คู่มือ</p>
+  <p class="drag-hint-text">⠿ ลากเพื่อเรียงลำดับกลุ่มตำแหน่งได้ตามต้องการ</p>
+  <p style="font-size:10px;color:rgba(201,169,110,0.5);letter-spacing:1px;margin-bottom:16px;position:relative;z-index:1;">⠿ ลากชื่อกลุ่มเพื่อเรียงลำดับได้ตามต้องการ</p>
+  <div id="role-groups-container"></div>
+</div>
+
+<div id="app">
+  <div class="hero">
+    <div class="hero-text">
+      <div style="margin-bottom:10px;">
+        <img src="data:image/png;base64,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"
+             style="height:40px;width:auto;object-fit:contain;filter:brightness(0) invert(1);"
+             alt="V Square Clinic Logo">
+      </div>
+      <div class="hero-badge">Controlled Document · Version 2569</div>
+      <h1>V Square <span>Clinic</span><br>Employee Standards</h1>
+      <p style="font-size:10.5px;color:rgba(250,247,242,0.4);margin-top:5px;">บริษัท วี เอ็กคลูซีฟ กรุ๊ป จำกัด</p>
+    </div>
+    <div class="role-pill" onclick="backToRoles()">
+      <span class="p-icon" id="pill-icon">👔</span>
+      <div>
+        <div class="p-group" id="pill-group"></div>
+        <div class="p-name" id="pill-name"></div>
+        <div class="p-change">เปลี่ยนตำแหน่ง ›</div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-strip"><div class="nav-inner">
+    <div class="nav-tab active" id="tab-role" onclick="showSection('s-role',this)">⭐ เริ่มที่นี่</div>
+    <div class="nav-tab" id="tab-principles" onclick="showSection('s-principles',this)">🏠 หลักการ</div>
+    <div class="nav-tab" id="tab-appearance" onclick="showSection('s-appearance',this)">👗 ภาพลักษณ์</div>
+    <div class="nav-tab" id="tab-front" onclick="showSection('s-front',this)">🤝 บริการ</div>
+    <div class="nav-tab" id="tab-room" onclick="showSection('s-room',this)">⚕️ ห้องหัตถการ</div>
+    <div class="nav-tab" id="tab-discipline" onclick="showSection('s-discipline',this)">⚠️ วินัย</div>
+    <div class="nav-tab" id="tab-kpi" onclick="showSection('s-kpi',this)">📊 KPI</div>
+    <div class="nav-tab" id="tab-leave" onclick="showSection('s-leave',this)">📋 วันลา</div>
+    <div class="nav-tab" id="tab-checklist" onclick="showSection('s-checklist',this)">✅ Checklist</div>
+      <div class="nav-tab" id="tab-benefits" onclick="showSection('s-benefits',this)">🎁 สวัสดิการ</div>
+      <div class="nav-tab" id="tab-resign" onclick="showSection('s-resign',this)">📄 การพ้นสภาพ</div>
+  </div></div>
+
+  <div class="section active" id="s-role">
+    <div class="section-header"><div class="section-icon">⭐</div><div class="section-title"><small>เริ่มอ่านที่นี่</small>หน้าที่และความรับผิดชอบ</div></div>
+    <div id="welcome-box" style="background:linear-gradient(135deg,#f5f8ff,#edf2ff);border:1px solid rgba(13,43,107,0.1);border-radius:12px;padding:18px 20px;margin-bottom:22px;">
+      <div style="font-size:10px;color:var(--gold-dark);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">ยินดีต้อนรับสู่ครอบครัว V Square Clinic</div>
+      <p style="font-size:13px;color:var(--navy);line-height:1.8;margin-bottom:10px;"><strong>V Square Clinic</strong> คลินิกความงามที่มีมากกว่า <strong>32 สาขา</strong> ทั่วกรุงเทพฯ และปริมณฑล ก่อตั้งโดย <strong>บริษัท วี เอ็กคลูซีฟ กรุ๊ป จำกัด</strong> เมื่อปี 2558 เราเน้นเรื่องความปลอดภัยเป็นอันดับหนึ่ง และการให้บริการด้วยมาตรฐานสูงสุดแก่ลูกค้าทุกคน</p>
+<p style="font-size:12.5px;color:var(--text-light);line-height:1.7;margin-bottom:12px;">คู่มือนี้สร้างขึ้นเพื่อให้คุณเข้าใจหน้าที่ของตัวเอง มาตรฐานการทำงาน และสิ่งที่คลินิกคาดหวังจากคุณ อ่านแล้วทำงานได้เลยโดยไม่ต้องเดา</p>
+      <div style="background:white;border-radius:8px;padding:12px 14px;">
+        <div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:8px;">📖 แนะนำให้อ่านตามลำดับนี้</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span style="background:var(--navy);color:var(--gold);font-size:11px;padding:4px 10px;border-radius:20px;">1. ⭐ หน้าที่ของฉัน</span>
+          <span style="background:var(--ivory);color:var(--navy);font-size:11px;padding:4px 10px;border-radius:20px;">2. 🏠 หลักการ</span>
+          <span style="background:var(--ivory);color:var(--navy);font-size:11px;padding:4px 10px;border-radius:20px;">3. 👗 ภาพลักษณ์</span>
+          <span style="background:var(--ivory);color:var(--navy);font-size:11px;padding:4px 10px;border-radius:20px;">4. แท็บที่เกี่ยวกับงานตัวเอง</span>
+        </div>
+      </div>
+    </div>
+    <div id="role-content-area"></div>
+  </div>
+
+  <div class="section" id="s-principles">
+    <div class="section-header"><div class="section-icon">🏠</div><div class="section-title"><small>Foundation</small>หลักการและสิ่งสำคัญ</div></div>
+    <div class="important-box"><h4>✦ 5 สิ่งที่เราทุกคนยึดถือร่วมกัน</h4><ul>
+      <li>ลูกค้าคือสิ่งสำคัญที่สุด — ความปลอดภัยและประสบการณ์ที่ดีมาก่อนเสมอ</li>
+      <li>ถ้าไม่แน่ใจ ถามก่อนเสมอ — ดีกว่าเดาแล้วผิดพลาด</li>
+      <li>พูดสุภาพ เป็นมืออาชีพ ทั้งกับลูกค้าและเพื่อนร่วมทีม</li>
+      <li>ข้อมูลลูกค้าเป็นความลับ — ดูแลรักษาอย่างเคร่งครัดตาม PDPA</li>
+      <li>รับผิดชอบงานของตัวเอง และพร้อมช่วยเหลือทีมเสมอ</li>
+    </ul></div>
+    <div class="alert-band red"><strong>🚫 4 สิ่งที่ห้ามทำในทุกกรณี</strong><br>แก้ไขหรือปกปิดข้อมูลย้อนหลัง · ใช้โทรศัพท์ส่วนตัวกับข้อมูลลูกค้า · รับปากหรือตอบแทนแพทย์ · ตัดสินใจเองเมื่อไม่แน่ใจ</div>
+    <div class="gold-divider">ทำความเข้าใจสัญลักษณ์ในคู่มือ</div>
+    <div style="background:var(--white);border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(13,27,42,0.06);margin-bottom:8px;">
+      <p style="font-size:13px;color:var(--text-light);margin-bottom:14px;line-height:1.8;">ในแต่ละแท็บ คุณจะเห็นสัญลักษณ์กำกับข้อปฏิบัติ — นี่คือความหมายของแต่ละสัญลักษณ์</p>
+      <div class="info-grid" style="margin:0;">
+        <div class="info-card" style="border-color:var(--red)"><h4 style="color:var(--red);">🔴 หมวด A — สำคัญมาก</h4><ul><li>กระทบความปลอดภัยลูกค้าโดยตรง</li><li>ต้องทำถูกต้องทุกครั้ง ไม่มีข้อยกเว้น</li></ul></div>
+        <div class="info-card" style="border-color:var(--orange)"><h4 style="color:var(--orange);">🟠 หมวด B — ระวังซ้ำ</h4><ul><li>เรื่องที่ต้องระมัดระวัง ห้ามทำซ้ำ</li><li>ครั้งแรกรับคำแนะนำ ซ้ำอีกจะหนักขึ้น</li></ul></div>
+        <div class="info-card" style="border-color:var(--green)"><h4 style="color:var(--green);">🟢 หมวด C — ทำแล้วได้คะแนน</h4><ul><li>สิ่งที่ทำแล้วส่งผลดีต่อตัวเองและทีม</li><li>ทำได้ดี = คะแนน KPI และรางวัล</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-appearance">
+    <div class="section-header"><div class="section-icon">👗</div><div class="section-title"><small>Appearance Standard</small>มาตรฐานภาพลักษณ์</div></div>
+    <div class="alert-band"><strong>⏰ มาก่อนเวลา 10 นาที</strong> เพื่อเข้ารับการตรวจมาตรฐานภาพลักษณ์ก่อนเข้างาน</div>
+    <div class="info-grid">
+      <div class="info-card"><h4>👔 ยูนิฟอร์ม</h4><ul><li>สวมยูนิฟอร์มบริษัทเท่านั้น</li><li>สะอาด เรียบร้อย ไม่ยับ ไม่ซีด</li><li>รองเท้าสุภาพ ปิดส้น สะอาด</li></ul></div>
+      <div class="info-card"><h4>💇 ทรงผม &amp; แต่งหน้า</h4><ul><li>ผมเก็บเรียบร้อย ไม่ปิดหน้า สีผมสุภาพ</li><li>ผู้หญิง: แต่งหน้าโทนสุภาพ</li><li>ผู้ชาย: โกน/เล็มหนวดเคราให้เรียบร้อย</li></ul></div>
+      <div class="info-card"><h4>💅 เล็บ &amp; สุขอนามัย</h4><ul><li>เล็บสั้น สะอาด ทาสีโทนสุภาพได้</li><li>ห้ามเล็บยาว เล็บต่อ เล็บแฟนซี</li><li>ไม่มีกลิ่นตัว กลิ่นบุหรี่</li></ul></div>
+      <div class="info-card"><h4>💍 เครื่องประดับ</h4><ul><li>เฉพาะที่จำเป็น: นาฬิกา แหวนแต่งงาน</li><li>ห้ามเครื่องประดับขนาดใหญ่หรือมีเสียง</li></ul></div>
+    </div>
+    <div class="gold-divider">Flow การตรวจก่อนเริ่มงาน</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div><div class="flow-content"><strong>มาถึงก่อนเวลา 10 นาที</strong><span>พร้อมยูนิฟอร์มและรูปลักษณ์ตามมาตรฐาน</span></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ผู้จัดการตรวจ</strong><span>ยูนิฟอร์ม · ผม · เล็บ · กลิ่นตัว</span></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">3</div></div><div class="flow-content"><strong>ผ่าน → เข้างาน | ไม่ผ่าน → แก้ไขทันทีแล้วตรวจซ้ำ</strong><span>การตัดสินของผู้จัดการถือเป็นที่สุดในวันนั้น</span></div></div>
+    </div>
+  </div>
+
+  <div class="section" id="s-front">
+    <div class="section-header"><div class="section-icon">🤝</div><div class="section-title"><small>Front of House</small>มาตรฐานการบริการ</div></div>
+    <div id="front-special-note"></div>
+    <div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">มาตรฐานพฤติกรรมและการสื่อสาร</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องปฏิบัติ</h4><li>ทักทายด้วยรอยยิ้มและความสุภาพ</li><li>เรียกลูกค้าว่า "คุณ + ชื่อ"</li><li>ให้ข้อมูลตามจริง ไม่เกินจริง</li></ul><ul class="dont-list"><h4>✕ ห้ามปฏิบัติ</h4><li>แสดงอารมณ์ลบต่อหน้าลูกค้า</li><li>นินทา วิจารณ์ทีม แพทย์ หรือองค์กร</li><li>ยืนยันผลลัพธ์แทนแพทย์</li></ul></div></div></div>
+    <div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การต้อนรับและ Check-in</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องปฏิบัติ</h4><li>เดินเข้าต้อนรับทันทีเมื่อลูกค้าเข้า</li><li>กล่าวทักทาย "วีสแควร์คลินิก สวัสดีค่ะ/ครับ"</li><li>เชิญนั่ง + เสิร์ฟน้ำภายใน 5 นาที</li><li>เปิด OPD ทุกเคสก่อนพบแพทย์</li><li>อัปเดตคิวทุก 10–15 นาที</li></ul><ul class="dont-list"><h4>✕ ห้ามปฏิบัติ</h4><li>ปล่อยลูกค้ารอโดยไม่มีการสื่อสาร</li><li>ให้ลูกค้ารอเกิน 20 นาทีโดยไม่แจ้ง</li><li>ลงนัดปากเปล่า (ต้องบันทึกในระบบ)</li></ul></div></div></div>
+    <div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">PDPA &amp; การใช้ทรัพยากรองค์กร</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องปฏิบัติ</h4><li>ถ่าย Before–After เฉพาะอุปกรณ์คลินิก</li><li>ส่งข้อมูลผ่านช่องทางองค์กรเท่านั้น</li></ul><ul class="dont-list"><h4>✕ ห้ามปฏิบัติ</h4><li>ใช้โทรศัพท์ส่วนตัวถ่ายภาพลูกค้า</li><li>ส่งข้อมูลลูกค้าผ่าน Line ส่วนตัว</li></ul></div></div></div>
+    <div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การจัดการข้อร้องเรียน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="flow" style="margin-top:8px;"><div class="flow-step"><div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div><div class="flow-content"><strong>รับฟังโดยไม่โต้แย้ง</strong><span>ขอโทษในความไม่สะดวก ไม่โทษบุคคลอื่น</span></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div><div class="flow-content"><strong>แจ้งผู้จัดการสาขาทันที</strong></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">3</div></div><div class="flow-content"><strong>บันทึกเหตุการณ์ในระบบ</strong></div></div></div></div></div>
+  </div>
+
+  <div class="section" id="s-room">
+    <div class="section-header"><div class="section-icon">⚕️</div><div class="section-title"><small>Medical Room Standards</small>มาตรฐานห้องหัตถการ</div></div>
+    <div id="room-content-area"></div>
+  </div>
+
+  <div class="section" id="s-discipline">
+    <div class="section-header"><div class="section-icon">⚠️</div><div class="section-title"><small>Discipline</small>มาตรฐานวินัยการทำงาน</div></div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:#3B5BDB"><h4 style="color:#3B5BDB">ระดับ 1 — เบา</h4><ul><li>ผิดเล็กน้อย ครั้งแรก</li><li>มีผล 6 เดือน</li></ul></div>
+      <div class="info-card" style="border-color:#E67700"><h4 style="color:#E67700">ระดับ 2 — ปานกลาง</h4><ul><li>ผิดซ้ำหมวด B หรือผิดหมวด A ขั้นต้น</li><li>มีผล 6 เดือน</li></ul></div>
+      <div class="info-card" style="border-color:#C0680D"><h4 style="color:#C0680D">ระดับ 3 — หนัก</h4><ul><li>ผิดหมวด A หรือผิดซ้ำรุนแรง</li><li>มีผล 12 เดือน</li></ul></div>
+      <div class="info-card" style="border-color:#C0392B"><h4 style="color:#C0392B">ระดับ 4 — หนักที่สุด</h4><ul><li>ผิดหมวด A ขั้นร้ายแรง</li><li>พิจารณาตามนโยบายบริษัท</li></ul></div>
+    </div>
+    <div class="alert-band" style="margin-top:4px;font-size:12px;color:var(--text-light);background:var(--ivory);border-color:var(--text-light);">รายละเอียดบทลงโทษอ้างอิงตามระเบียบบริษัทฉบับเต็ม</div>
+    <div class="gold-divider">หากมีข้อสงสัยหรือปัญหา</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div><div class="flow-content"><strong>พูดคุยกับผู้จัดการสาขาได้เลยทันที</strong><span>ไม่ต้องรอ เปิดใจพูดคุยได้เสมอ</span></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ทุกฝ่ายมีโอกาสชี้แจงและอธิบาย</strong><span>กระบวนการยุติธรรม ทุกคนมีสิทธิ์พูด</span></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">3</div></div><div class="flow-content"><strong>รายละเอียดเพิ่มเติมอ้างอิงตามระเบียบบริษัทฉบับเต็ม</strong></div></div>
+    </div>
+  </div>
+
+  <div class="section" id="s-kpi">
+    <div class="section-header"><div class="section-icon">📊</div><div class="section-title"><small>Performance Evaluation</small>เกณฑ์การประเมิน KPI</div></div>
+    <div class="alert-band">ประเมินทุก <strong>3 เดือน</strong> | ผู้ประเมิน: ผู้จัดการสาขา + แพทย์ประจำสาขา</div>
+    <div style="background:var(--white);border-radius:10px;padding:18px;margin-bottom:13px;box-shadow:0 2px 8px rgba(13,27,42,0.07);">
+      <h3 style="font-size:13px;font-weight:600;margin-bottom:14px;color:var(--navy);">น้ำหนักคะแนน KPI</h3>
+      <div class="kpi-bar"><span class="kpi-label">🔴 หมวด A</span><div class="kpi-track"><div class="kpi-fill" style="width:40%"></div></div><span class="kpi-pct">40%</span></div>
+      <div class="kpi-bar"><span class="kpi-label">🟠 หมวด B</span><div class="kpi-track"><div class="kpi-fill" style="width:30%"></div></div><span class="kpi-pct">30%</span></div>
+      <div class="kpi-bar"><span class="kpi-label">🟢 หมวด C (Bonus)</span><div class="kpi-track"><div class="kpi-fill" style="width:30%;background:linear-gradient(to right,var(--green),#7ECC9E)"></div></div><span class="kpi-pct">30%</span></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:var(--green)"><h4 style="color:var(--green)">✓ เกณฑ์ผ่าน KPI</h4><ul><li>หมวด A: ไม่มีการกระทำผิดแม้แต่ครั้งเดียว</li><li>หมวด B: ผิดไม่เกิน 1 ครั้ง · คะแนนรวม ≥ 70%</li></ul></div>
+      <div class="info-card" style="border-color:var(--red)"><h4 style="color:var(--red)">✕ เกณฑ์ไม่ผ่าน KPI</h4><ul><li>หมวด A ผิด 1 ครั้ง = ไม่ผ่านทันที</li><li>ไม่ผ่าน 2 รอบติดต่อกัน = เข้าพัฒนาพิเศษ</li></ul></div>
+    </div>
+  </div>
+
+  <div class="section" id="s-leave">
+    <div class="section-header"><div class="section-icon">📋</div><div class="section-title"><small>Leave &amp; Overtime</small>วันลา วันหยุด และ OT</div></div>
+    <div class="info-grid">
+      <div class="info-card"><h4>📅 วันหยุดและการลา</h4><ul><li>วันหยุด 6 วัน/เดือน (ไม่สะสม ไม่โอน)</li><li>ลาป่วยได้ไม่เกิน 30 วัน/ปี</li><li>ลากิจ: แจ้งล่วงหน้า 3 วัน</li><li>ลาป่วยเกิน 1 วัน: ต้องมีใบรับรองแพทย์</li><li>ลาคลอด: ไม่เกิน 98 วัน รับค่าจ้าง 45 วัน</li></ul></div>
+      <div class="info-card"><h4>⏰ OT (ล่วงเวลา)</h4><ul><li>ต้องได้รับอนุมัติจากผู้จัดการก่อน</li><li>OT วันทำงาน: 1.5 เท่า · OT วันหยุด: 3 เท่า</li></ul></div>
+      <div class="info-card" style="border-color:var(--red)"><h4 style="color:var(--red)">🚫 ความผิดร้ายแรง</h4><ul><li>ขาดงานไม่แจ้ง 3 วันติดต่อกัน</li><li>ทำ OT โดยไม่ได้รับอนุมัติ</li><li>ลงเวลาเท็จ</li></ul></div>
+    </div>
+    <div class="gold-divider">ขั้นตอนการลา</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div><div class="flow-content"><strong>แจ้งผู้บังคับบัญชาด้วยวาจาหรือโทรศัพท์</strong><span>ภายใน 10.00 น. กรณีลาป่วยฉุกเฉิน</span></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ส่งแบบฟอร์มใบลา</strong></div></div>
+      <div class="flow-step"><div class="flow-line"><div class="flow-dot">3</div></div><div class="flow-content"><strong>รอการอนุมัติจากผู้บังคับบัญชา</strong></div></div>
+    </div>
+  </div>
+
+  <div class="section" id="s-checklist">
+    <div class="section-header"><div class="section-icon">✅</div><div class="section-title"><small>Manager Inspection</small>Checklist ตรวจสอบประจำวัน</div></div>
+    <div id="checklist-content-area"></div>
+  </div>
+
+  <!-- SECTION: สวัสดิการ -->
+  <div class="section" id="s-benefits">
+    <div class="section-header"><div class="section-icon">🎁</div><div class="section-title"><small>Benefits &amp; Welfare</small>สวัสดิการและผลประโยชน์</div></div>
+    <div class="alert-band">สวัสดิการเหล่านี้มีผลตั้งแต่วันแรกที่เริ่มงาน เว้นแต่ระบุเป็นอย่างอื่น</div>
+    <div class="benefit-grid">
+      <div class="benefit-card"><span class="b-icon">🏥</span><div class="b-title">ประกันสังคม</div><div class="b-desc">บริษัทนำส่งเงินสมทบประกันสังคมตามกฎหมายทุกเดือน</div></div>
+      <div class="benefit-card"><span class="b-icon">🛡️</span><div class="b-title">ประกันกลุ่ม</div><div class="b-desc">ประกันอุบัติเหตุกลุ่มสำหรับพนักงานทุกคน</div></div>
+      <div class="benefit-card"><span class="b-icon">💉</span><div class="b-title">สิทธิรักษาในคลินิก</div><div class="b-desc">พนักงานมีสิทธิรับบริการในคลินิกตามเงื่อนไขที่บริษัทกำหนด</div></div>
+      <div class="benefit-card"><span class="b-icon">💰</span><div class="b-title">ค่ามือ / ค่าท้ายอด</div><div class="b-desc">มีค่ามือและเปอร์เซ็นต์ยอดขาย ตามที่ตกลงในสัญญาจ้าง</div></div>
+      <div class="benefit-card"><span class="b-icon">📅</span><div class="b-title">วันหยุดพักผ่อน</div><div class="b-desc">สะสมได้ตามอายุงาน เริ่มต้น 6 วัน/ปี สูงสุด 10 วัน/ปี</div></div>
+      <div class="benefit-card"><span class="b-icon">🎂</span><div class="b-title">สวัสดิการอื่นๆ</div><div class="b-desc">งานเลี้ยงสำนักงาน และสวัสดิการช่วยเหลือกรณีพิเศษ</div></div>
+    </div>
+    <div class="gold-divider">วันหยุดและการลา</div>
+    <div class="info-grid">
+      <div class="info-card"><h4>📅 วันหยุดพักผ่อนประจำปี</h4><ul><li>ทำงาน 1 ปี: 6 วัน</li><li>ทำงาน 2 ปี: 7 วัน</li><li>ทำงาน 3 ปี: 8 วัน</li><li>ทำงาน 4 ปี: 9 วัน</li><li>ทำงาน 5 ปีขึ้นไป: 10 วัน</li><li>สะสมได้ไม่เกิน 20 วัน</li></ul></div>
+      <div class="info-card"><h4>🏥 การลาป่วย</h4><ul><li>ลาได้ไม่เกิน 30 วัน/ปี โดยได้รับค่าจ้าง</li><li>ลาป่วย 3 วันขึ้นไปต้องมีใบรับรองแพทย์</li><li>แจ้งผู้บังคับบัญชาภายใน 10.00 น.</li></ul></div>
+      <div class="info-card"><h4>📋 การลากิจ</h4><ul><li>ลาได้ไม่เกิน 6 วัน/ปี โดยได้รับค่าจ้าง</li><li>แจ้งล่วงหน้า 2 วันทำงาน</li><li>ต้องได้รับอนุมัติจากผู้บังคับบัญชา</li></ul></div>
+      <div class="info-card"><h4>👶 การลาคลอด</h4><ul><li>ลาได้ไม่เกิน 98 วัน (รวมวันหยุด)</li><li>บริษัทจ่ายค่าจ้าง 45 วัน</li><li>ส่วนที่เหลือรับสิทธิจากประกันสังคม</li></ul></div>
+    </div>
+    <div class="gold-divider">ค่าล่วงเวลา (OT)</div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:#3B5BDB"><h4 style="color:#3B5BDB">OT วันทำงานปกติ</h4><ul><li>1.5 เท่าของค่าจ้างต่อชั่วโมง</li><li>ต้องได้รับอนุมัติก่อนทุกครั้ง</li></ul></div>
+      <div class="info-card" style="border-color:var(--orange)"><h4 style="color:var(--orange)">ทำงานในวันหยุด</h4><ul><li>เพิ่มอีก 1 เท่าของค่าจ้างปกติ</li></ul></div>
+      <div class="info-card" style="border-color:var(--green)"><h4 style="color:var(--green)">OT ในวันหยุด</h4><ul><li>เกิน 8 ชั่วโมง = 3 เท่าของค่าจ้างต่อชั่วโมง</li></ul></div>
+    </div>
+  </div>
+
+  <!-- SECTION: การพ้นสภาพ -->
+  <div class="section" id="s-resign">
+    <div class="section-header"><div class="section-icon">📄</div><div class="section-title"><small>Resignation &amp; Offboarding</small>การพ้นสภาพการเป็นพนักงาน</div></div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:var(--navy)"><h4>📝 การลาออก</h4><ul><li>ยื่นหนังสือขอลาออกล่วงหน้า <strong>30 วัน</strong></li><li>ระดับบริหารล่วงหน้า <strong>45 วัน</strong></li><li>หากไม่แจ้งล่วงหน้า ต้องรับผิดชอบความเสียหาย (ถ้ามี)</li></ul></div>
+      <div class="info-card" style="border-color:var(--gold)"><h4>📦 สิ่งที่ต้องส่งคืน</h4><ul><li>ชุดยูนิฟอร์มทุกชิ้น</li><li>บัตรประกันกลุ่ม</li><li>อุปกรณ์และทรัพย์สินของบริษัท</li><li>ส่งคืนก่อนวันพ้นสภาพ</li></ul></div>
+      <div class="info-card" style="border-color:var(--green)"><h4>✅ เกษียณอายุ</h4><ul><li>อายุครบ 60 ปีบริบูรณ์</li><li>ได้รับค่าชดเชยตามกฎหมาย</li></ul></div>
+    </div>
+    <div class="gold-divider">อัตราค่าชดเชยตามกฎหมาย</div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:#3B5BDB"><h4 style="color:#3B5BDB">120 วัน – ไม่ครบ 1 ปี</h4><ul><li>ค่าชดเชย 30 วัน</li></ul></div>
+      <div class="info-card" style="border-color:#3B5BDB"><h4 style="color:#3B5BDB">1 ปี – ไม่ครบ 3 ปี</h4><ul><li>ค่าชดเชย 90 วัน</li></ul></div>
+      <div class="info-card" style="border-color:var(--orange)"><h4 style="color:var(--orange)">3 ปี – ไม่ครบ 6 ปี</h4><ul><li>ค่าชดเชย 180 วัน</li></ul></div>
+      <div class="info-card" style="border-color:var(--orange)"><h4 style="color:var(--orange)">6 ปี – ไม่ครบ 10 ปี</h4><ul><li>ค่าชดเชย 240 วัน</li></ul></div>
+      <div class="info-card" style="border-color:var(--red)"><h4 style="color:var(--red)">10 ปี – ไม่ครบ 20 ปี</h4><ul><li>ค่าชดเชย 300 วัน</li></ul></div>
+      <div class="info-card" style="border-color:var(--red)"><h4 style="color:var(--red)">20 ปีขึ้นไป</h4><ul><li>ค่าชดเชย 400 วัน</li></ul></div>
+    </div>
+    <div class="alert-band red" style="margin-top:8px;"><strong>⚠️ หมายเหตุ</strong> — ค่าชดเชยจะไม่ได้รับในกรณีที่พนักงานกระทำผิดวินัยร้ายแรงตามที่บริษัทกำหนด</div>
+  </div>
+
+  <div class="footer">
+    <p><span>V Square Clinic</span> · บริษัท วี เอ็กคลูซีฟ กรุ๊ป จำกัด</p>
+    <p style="margin-top:4px;">เอกสารควบคุม · ทบทวนทุก 6 เดือน · พนักงานทุกคนต้องลงนามรับทราบ</p>
+  </div>
+</div>
+<script>
+// ── HELPERS ──────────────────────────────────────────────────
+function st(items){
+  return '<div class="sterile-box"><h4>🧤 มาตรฐานปลอดเชื้อประจำตำแหน่ง</h4><ul>'+items.map(i=>'<li>'+i+'</li>').join('')+'</ul></div>';
+}
+function rbox(desc,duties,warn){
+  var w=warn?'<div class="role-warning">⚠️ '+warn+'</div>':'';
+  return '<div class="role-summary"><div class="role-summary-title">✦ บทบาทของคุณ</div><div class="role-summary-desc">'+desc+'</div><ul class="role-duties">'+duties.map(d=>'<li>'+d+'</li>').join('')+'</ul>'+w+'</div>';
+}
+function snote(txt){
+  return '<div style="background:linear-gradient(135deg,#1a2f45,#243B55);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:13px 17px;margin-bottom:15px;color:var(--cream);font-size:12.5px;"><div style="color:var(--gold);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">✦ หน้าที่เฉพาะตำแหน่ง</div>'+txt+'</div>';
+}
+function rtag(label,machines){
+  return '<div class="room-tag"><strong>'+label+'</strong> '+machines+'</div>';
+}
+
+// ── ROOM CONTENT ─────────────────────────────────────────────
+var ROOM={
+mgr:'<div class="mgr-note"><h4>✦ สำหรับผู้จัดการ — ใช้ตรวจสอบมาตรฐานทีมงาน</h4>หมวดนี้ใช้เป็นแนวทางกำกับดูแลทีมงานในห้องหัตถการ ไม่ใช่ขั้นตอนที่ต้องปฏิบัติเอง</div><div class="important-box"><h4>✦ หลักการสำคัญ — ห้ามยืดหยุ่น</h4><ul><li>ความปลอดภัยมาก่อนเสมอ</li><li>ห้อง / อุปกรณ์ / เอกสาร ต้องพร้อม 100%</li><li>ใช้ข้อมูลจาก OPD + Case Confirmation เท่านั้น</li><li>ทุกขั้นตอนต้อง Audit ได้</li></ul></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A1</span><span class="rule-card-title">เทคนิคปลอดเชื้อ (Sterile Technique)</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>สวมหมวกคลุมผมและถุงมือทุกครั้ง</li><li>หยิบอุปกรณ์ด้วย Forceps เท่านั้น</li><li>รอให้แอลกอฮอล์แห้งก่อนเริ่ม</li><li>ปิดฝาเข็ม/ไซริงค์ทุกครั้งก่อนวางพัก</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้มือสัมผัสอุปกรณ์ปลอดเชื้อโดยตรง</li><li>นำอุปกรณ์ที่ตกพื้นกลับมาใช้</li><li>วางเข็ม/ไซริงค์โดยไม่ปิดฝา</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A2</span><span class="rule-card-title">การเตรียมลูกค้าและยา</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ยืนยันตัวตนลูกค้าก่อนเข้าห้องทุกครั้ง</li><li>ตรวจประวัติการแพ้ยาและข้อควรระวัง</li><li>ตรวจชื่อยา วันหมดอายุ และปริมาณ</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>พาลูกค้าเข้าห้องก่อนยืนยันตัวตน</li><li>ใช้ยาหมดอายุหรือผสมยาผิดอัตราส่วน</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A3</span><span class="rule-card-title">การแจ้งเหตุผิดปกติ (Incident Report)</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>⚡ รายงานทันที</h4><li>ลูกค้ามีอาการผิดปกติหลังรับบริการ</li><li>พบฟองอากาศในสาย IV</li><li>มีการใช้ยา/อุปกรณ์หมดอายุ</li></ul><ul class="do-list" style="background:#FFF8E7"><h4 style="color:#C0680D">🕐 รายงานใน 24 ชั่วโมง</h4><li>ลูกค้าร้องเรียนระดับปานกลาง</li></ul></div><div class="alert-band red" style="margin-top:11px;"><strong>⚠️ ห้ามปิดบังหรือซ่อนเหตุการณ์โดยเด็ดขาด</strong></div></div></div>',
+
+sp:rtag('เครื่องที่ดูแล:','Ultraformer III · Ultraformer MPT · Volnewmer · Coolsculpting')+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">Flow การทำงานประจำวัน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body">'+
+'<div class="flow">'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">เช้า</div><div class="flow-connector"></div></div><div class="flow-content"><strong>เตรียมเครื่องก่อนให้บริการ</strong><span>ตรวจสอบ Software · ทำ Test Shot Ultraformer · ตรวจหัว Treatment, Cooling Pads, แผน Gel · ตรวจนับ Stock Coolsculpting</span></div></div>'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">งาน</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ให้บริการหัตถการ</strong><span>ยืนยันตัวตนลูกค้า · อธิบายขั้นตอนและผลลัพธ์ · ให้บริการตามที่ได้รับมอบหมาย · บันทึก Shot ในระบบทุกเคส</span></div></div>'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">เย็น</div></div><div class="flow-content"><strong>ปิดงานและดูแลเครื่อง</strong><span>ทำความสะอาดหัวเครื่องและอุปกรณ์ · รายงานยอด Stock · จัดเก็บอุปกรณ์ตามมาตรฐาน</span></div></div>'+
+'</div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การเตรียมเครื่องและให้บริการ Ultraformer</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบ Software และระบบเครื่องก่อนใช้งาน</li><li>ทำ Test Shot ทุกวันก่อนใช้กับลูกค้า</li><li>ตรวจหัว Treatment, Cooling Pads, แผน Gel ให้ครบ</li><li>บันทึกจำนวน Shot ทุกเคสในระบบ</li><li>รายงาน Shot คงเหลือตามนโยบายคลินิก</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้เครื่องกับลูกค้าก่อน Test Shot</li><li>ใช้พลังงานเกินจากที่แพทย์กำหนด</li><li>ยืนยันผลลัพธ์แทนแพทย์</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การให้บริการ Coolsculpting</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ยืนยันตัวตนและตรวจสอบข้อมูลลูกค้าก่อนทุกครั้ง</li><li>เลือกหัว Applicator ให้ตรงกับรูปร่างของลูกค้า</li><li>ตรวจนับ Stock: Applicators, Gel Pads ทุกวัน</li><li>รายงานการเบิกจ่ายอุปกรณ์เมื่อใกล้หมด</li><li>ประเมินความพึงพอใจและบันทึกอาการหลังทำ</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้ Applicator ที่ไม่เหมาะกับบริเวณที่ทำ</li><li>ปล่อยลูกค้าไว้คนเดียวระหว่างทำหัตถการ</li></ul></div></div></div>'+
+st(['ล้างมือและสวมถุงมือก่อนสัมผัสลูกค้าหรืออุปกรณ์ทุกครั้ง','ทำความสะอาดหัวเครื่องและ Cooling Pads หลังการใช้งานทุกครั้ง','จัดเก็บอุปกรณ์ตามมาตรฐานการควบคุมการติดเชื้อ','รายงานทันทีหากพบเครื่องชำรุดหรืออุปกรณ์ผิดปกติ']),
+
+ls:rtag('เครื่องที่ดูแล:','Light B Evo (เลเซอร์กำจัดขน) · Cryo 6/7 (เครื่องเป่าลมเย็น)')+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">Flow การทำงานประจำวัน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body">'+
+'<div class="flow">'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">เช้า</div><div class="flow-connector"></div></div><div class="flow-content"><strong>เตรียมเครื่องและพื้นที่</strong><span>ตรวจสอบ Light B Evo และ Cryo 6/7 · ตรวจนับวัสดุสิ้นเปลือง · เตรียมพื้นที่ให้บริการ</span></div></div>'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">งาน</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ให้บริการเลเซอร์กำจัดขน</strong><span>ประเมินเส้นขนและผิวหนัง · แนะนำลูกค้าก่อนทำ · ให้บริการตามแผน · เป่าลมเย็น Cryo ระหว่างยิง</span></div></div>'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">จบ</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ดูแลหลังทำ</strong><span>แนะนำการดูแลผิวหลังทำ · บันทึก Shot ในระบบ · ทำความสะอาดเครื่องและพื้นที่</span></div></div>'+
+'<div class="flow-step"><div class="flow-line"><div class="flow-dot">เย็น</div></div><div class="flow-content"><strong>ปิดงาน</strong><span>รายงานยอดวัสดุ · ทำความสะอาดเครื่องตามขั้นตอน · จัดเก็บอุปกรณ์</span></div></div>'+
+'</div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การเตรียมเครื่องและให้บริการเลเซอร์กำจัดขน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบ Light B Evo และ Cryo 6/7 ก่อน-หลังใช้งานทุกวัน</li><li>ประเมินเส้นขนและผิวหนังเบื้องต้นก่อนให้บริการทุกเคส</li><li>ให้ข้อมูลที่ถูกต้องเกี่ยวกับขั้นตอนก่อน-หลังทำ</li><li>บันทึกจำนวน Shot Laser และวัสดุสิ้นเปลืองทุกเคส</li><li>รายงานปัญหาหรือความผิดปกติของเครื่องทันที</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้เครื่องโดยไม่ตรวจสอบก่อน</li><li>ยืนยันจำนวนครั้งหรือผลลัพธ์แทนแพทย์</li><li>ข้ามขั้นตอนการประเมินผิวหนังก่อนทำ</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การบริหารจัดการวัสดุและสต็อก</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบและจัดทำบันทึก Shot Laser ทุกวัน</li><li>แจ้งเบิกวัสดุเมื่อใกล้หมด ไม่รอให้หมดก่อน</li><li>ทำความสะอาดเครื่องและจัดเก็บตามมาตรฐาน</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้วัสดุสิ้นเปลืองโดยไม่บันทึก</li><li>ปล่อยให้ Cryo 6/7 มีน้ำแข็งสะสมโดยไม่ละลาย</li></ul></div></div></div>'+
+st(['ล้างมือและสวมถุงมือก่อนสัมผัสลูกค้าทุกครั้ง','ทำความสะอาดหัวเลเซอร์ตามขั้นตอนหลังใช้งาน','ละลายน้ำแข็งและเทน้ำทิ้งจาก Cryo 6/7 อย่างถูกต้อง','รายงานปัญหาหรือความผิดปกติของเครื่องทันที','ใช้เฉพาะอุปกรณ์ที่ผ่านการฆ่าเชื้อ']),
+
+lsp:rtag('เครื่องที่ดูแล:','Ultraformer III · Ultraformer MPT · Volnewmer · Coolsculpting · Light B Evo · Cryo 6/7')+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">Flow การทำงานประจำวัน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="flow"><div class="flow-step"><div class="flow-line"><div class="flow-dot">เช้า</div><div class="flow-connector"></div></div><div class="flow-content"><strong>เตรียมเครื่องครบทุกประเภท</strong><span>Test Shot Ultraformer · ตรวจ Light B Evo + Cryo 6/7 · ตรวจนับ Stock ทั้งหมด</span></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">งาน</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ให้บริการตามที่ได้รับมอบหมาย</strong><span>Ultraformer / Coolsculpting / เลเซอร์กำจัดขน · บันทึก Shot ทุกเครื่อง</span></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">เย็น</div></div><div class="flow-content"><strong>ปิดงาน</strong><span>ทำความสะอาดเครื่องทุกชิ้น · รายงานยอด Stock ทั้งหมด · จัดเก็บตามมาตรฐาน</span></div></div></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การเตรียมเครื่องครบทุกประเภท</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบ Software เครื่อง Ultraformer และทำ Test Shot ทุกวัน</li><li>ตรวจสอบ Light B Evo และ Cryo 6/7 ก่อน-หลังใช้งาน</li><li>ตรวจนับ Stock ทั้ง Coolsculpting, Gel Pads และวัสดุเลเซอร์</li><li>บันทึก Shot ทุกเครื่องในระบบทุกเคส</li><li>แจ้งเบิกวัสดุเมื่อใกล้หมด</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้เครื่อง Ultraformer กับลูกค้าก่อน Test Shot</li><li>ข้ามขั้นตอนตรวจสอบเครื่องมือใดๆ</li><li>ยืนยันผลลัพธ์หรือรับปากแทนแพทย์</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การประสานงานและช่วยงานทีม</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ประสานงานกับแพทย์ ผู้ช่วยแพทย์ และทีมต้อนรับเพื่อจัดคิว</li><li>ช่วยงานหน้าเคาน์เตอร์เมื่อมีเวลาว่าง เช่น ต้อนรับลูกค้า</li><li>เข้าร่วมประชุมและอบรมตามที่ได้รับมอบหมาย</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ปล่อยให้ Stock หมดโดยไม่แจ้งเบิกล่วงหน้า</li></ul></div></div></div>'+
+st(['ล้างมือและสวมถุงมือก่อนสัมผัสลูกค้าหรืออุปกรณ์ทุกครั้ง','ทำความสะอาดหัวเครื่องและ Cooling Pads หลังใช้งาน','ละลายน้ำแข็งและเทน้ำทิ้งจาก Cryo 6/7 อย่างถูกต้อง','จัดเก็บอุปกรณ์ทุกชิ้นตามมาตรฐานการควบคุมการติดเชื้อ','รายงานทันทีหากพบเครื่องชำรุด']),
+
+nurse:'<div class="room-tag"><strong>งานหลัก:</strong> IV Drip วิตามิน · ปากกาลดน้ำหนัก · ช่วยแพทย์ในห้องหัตถการ</div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">Flow การทำงานประจำวัน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="flow"><div class="flow-step"><div class="flow-line"><div class="flow-dot">เช้า</div><div class="flow-connector"></div></div><div class="flow-content"><strong>เตรียมห้องและอุปกรณ์</strong><span>ทำความสะอาดห้องหัตถการ · เตรียม IV set เข็ม ไซริงค์ สำลี · ตรวจสต็อกยาและวิตามิน · เติมอุปกรณ์ที่ขาด</span></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">งาน</div><div class="flow-connector"></div></div><div class="flow-content"><strong>ให้บริการลูกค้า</strong><span>วัด Vital Signs · ให้ IV Drip / ปากกาลดน้ำหนัก · ช่วยแพทย์ทำหัตถการ · ทำความสะอาดใบหน้า ทายาชา</span></div></div><div class="flow-step"><div class="flow-line"><div class="flow-dot">เย็น</div></div><div class="flow-content"><strong>ปิดงาน</strong><span>เขียนสูตรวิตามิน · ตรวจนับสต็อกยาทุกตัว · ทำความสะอาดอุปกรณ์ · รวบรวมขยะติดเชื้อ</span></div></div></div></div></div>'
++'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การให้บริการ IV Drip วิตามิน</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ทบทวนชื่อ-นามสกุลและสูตรวิตามินก่อนทุกครั้ง</li><li>วัดความดัน ชีพจร SpO2 และบันทึกใน OPD ก่อนให้วิตามิน</li><li>ถ่ายรูปแขนทั้งสองข้างก่อนเปิดเส้น</li><li>เฝ้าระวังอาการขณะให้วิตามิน สอบถามอาการที่ 15 นาที</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ให้วิตามินโดยไม่วัด Vital Signs ก่อน</li><li>ปล่อยลูกค้าไว้คนเดียวระหว่างให้วิตามิน</li><li>ใช้ยาที่ไม่ตรงกับสูตรที่แพทย์สั่ง</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การบริหารยาปากกาลดน้ำหนัก</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบชื่อยา ปริมาณ และวันหมดอายุก่อนทุกครั้ง</li><li>ตรวจประวัติสุขภาพและข้อห้ามใช้ยา</li><li>ให้ข้อมูลผลข้างเคียงและวิธีใช้ยา</li><li>บันทึกการให้ยาใน OPD ทุกครั้ง</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ให้ยาโดยไม่มีคำสั่งแพทย์</li><li>ปรับขนาดยาเองโดยไม่ปรึกษาแพทย์</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การช่วยแพทย์ในห้องหัตถการ</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ทำความสะอาดใบหน้าลูกค้าก่อนทำหัตถการให้สะอาดหมดจด</li><li>ทายาชา นับเวลา บันทึกเวลาใน OPD</li><li>เตรียมอุปกรณ์และยาให้ครบก่อนแพทย์เข้า</li><li>ช่วยแพทย์: ประคบน้ำแข็ง กดซับเลือด ส่งอุปกรณ์</li><li>เขียนสูตรวิตามินและตรวจนับสต็อกยาทุกสิ้นวัน</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>สวมถุงมือออกนอกห้องหัตถการในกรณีใดๆ</li><li>ส่งเข็มทางด้านหน้าลูกค้า</li></ul></div></div></div>'+st(['ล้างมือด้วยสบู่ก่อน-หลังปฏิบัติงานทุกครั้ง','สวมถุงมือก่อนเริ่มทำหัตถการ — ห้ามสวมออกนอกห้องในกรณีใดๆ','ใช้เครื่องมือที่ผ่านการฆ่าเชื้อเท่านั้น ไม่ใช้ซ้ำ','กำจัดของใช้ที่มีเลือดหรือสารคัดหลั่งตามหลักสุขอนามัย']),
+
+shaver:'<div class="room-tag"><strong>งานหลัก:</strong> โกนขนเตรียมผิวก่อนทำเลเซอร์ · สนับสนุนนักกายภาพ · ดูแลผิวหลังทำ</div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การโกนขนและเตรียมผิว</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบบริเวณที่จะโกนให้ตรงกับบริการที่ลูกค้าจอง</li><li>โกนขนอย่างเบามือและระมัดระวัง</li><li>ทำความสะอาดผิวหนังบริเวณที่จะทำเลเซอร์ให้พร้อม</li><li>สอบถามข้อมูลสุขภาพเบื้องต้นของลูกค้า</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>โกนผิดบริเวณจากที่ลูกค้าจองไว้</li><li>โกนแรงจนทำให้ผิวระคายเคืองหรือเป็นแผล</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การสนับสนุนนักกายภาพและดูแลหลังทำ</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ช่วยเป่าลมเย็นระหว่างทำเลเซอร์</li><li>สังเกตอาการผิดปกติของลูกค้าและแจ้งนักกายภาพทันที</li><li>ทาครีมบำรุงหลังทำเลเซอร์ตามแนวทางของคลินิก</li><li>อธิบายข้อควรปฏิบัติหลังทำให้ลูกค้าเข้าใจ</li><li>เปลี่ยนผ้าปูเตียงและทำความสะอาดพื้นที่หลังจบแต่ละเคส</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>รับปากผลลัพธ์แทนแพทย์</li><li>ละทิ้งลูกค้าระหว่างทำหัตถการ</li></ul></div></div></div>'+st(['ล้างมือและสวมถุงมือก่อนสัมผัสลูกค้าทุกครั้ง','ใช้เฉพาะอุปกรณ์ใช้แล้วทิ้ง — ห้ามนำกลับมาใช้ซ้ำโดยเด็ดขาด','ทิ้งเวชภัณฑ์ใช้แล้วตามแนวทางของคลินิก','รายงานทันทีหากพบอุปกรณ์ชำรุดหรือสถานการณ์เสี่ยง']),
+
+ma:'<div class="room-tag"><strong>งานหลัก:</strong> เตรียมยาและอุปกรณ์ · ดูแลห้องหัตถการ · ช่วยแพทย์ · บริหารสต็อกยา · ทำความสะอาดอุปกรณ์</div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การเตรียมยาและตรวจสอบเวชภัณฑ์</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ตรวจสอบ Lot/Exp/Seal ของยาและอุปกรณ์ทุกชิ้น</li><li>เตรียมยาตามอัตราส่วนที่แพทย์กำหนดอย่างแม่นยำ</li><li>จัดเรียงยาแบบ FEFO — ยาหมดอายุก่อนอยู่ด้านหน้าเสมอ</li><li>ตรวจนับสต็อกยา นับ Shot Hifu และบันทึกในระบบทุกสิ้นวัน</li><li>เช็คอุณหภูมิตู้เย็นยาตามช่วงเวลาที่กำหนด</li><li>เก็บขวด Botox ที่ใช้ไม่หมดใส่ซองซิป เขียนวันที่ ปริมาณที่เหลือ เก็บตู้เย็น</li><li>ทำเรื่องเบิกยาเมื่อถึงเกณฑ์</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ใช้ยาหมดอายุหรือ Seal แตก</li><li>ผสมยาผิดอัตราส่วน</li><li>นำยาออกโดยไม่บันทึก</li><li>เก็บยาผิดตำแหน่งหรือผิดอุณหภูมิ</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การช่วยแพทย์ในห้องหัตถการ</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>เตรียมอุปกรณ์ ยา และเครื่องมือแพทย์ให้ครบก่อนแพทย์เข้า</li><li>ส่งเข็มให้แพทย์ทางด้านหลังลูกค้าเสมอ</li><li>ช่วยแพทย์ระหว่างทำหัตถการ: ประคบน้ำแข็ง กดซับเลือด จัดท่า</li><li>ถ่ายรูป Before-After ตามมุมและขั้นตอนในคู่มือ</li><li>อัปโหลดรูปในระบบภายในวันเดียวกัน หรือไม่เกินเช้าวันถัดไป</li><li>ดูแลความสะอาดเรียบร้อยของห้องหัตถการก่อน-ระหว่าง-หลัง</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ส่งเข็มทางด้านหน้าลูกค้า</li><li>ใช้น้ำเสียงตื่นตระหนกต่อหน้าลูกค้า</li><li>ปล่อยลูกค้ากลับโดยยังห้ามเลือดไม่เรียบร้อย</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การดูแลอุปกรณ์และความสะอาดห้อง</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ทำความสะอาด Handpiece หัวเครื่อง Ultraformer/Ulthera/Thermage ด้วยแอลกอฮอล์</li><li>เตรียมสำลีชุบน้ำเกลือในห้องหัตถการทุกห้อง</li><li>ตรวจสอบ Cool Pack และฆ่าเชื้อหลังใช้งาน</li><li>รวบรวมขยะติดเชื้อ ติดป้าย รอส่งตามระบบ</li><li>ทำความสะอาดตู้เย็นยาและตู้เย็นพนักงานสม่ำเสมอ</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>นำอุปกรณ์ที่ตกพื้นกลับมาใช้โดยไม่ฆ่าเชื้อ</li><li>ปะปนขยะติดเชื้อกับขยะทั่วไป</li></ul></div></div></div>'+
+'<div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การสื่อสารกับลูกค้าและแพทย์</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ยึดแพทย์เป็นที่ตั้ง ปฏิบัติตามคำแนะนำของแพทย์โดยตั้งใจ</li><li>สอบถามความต้องการลูกค้าก่อนเข้าพบแพทย์ หากลูกค้าอนุญาต</li><li>ให้คำแนะนำได้ในเชิงลึก แต่ไม่ยัดเยียดสิ่งที่ลูกค้าไม่ได้ขอ</li><li>อัปโหลดรูปและบันทึกข้อมูลหัตถการในระบบครบถ้วน</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>รับปากหรือยืนยันผลการรักษาแทนแพทย์</li><li>เปิดเผยข้อมูลลูกค้าให้บุคคลที่ไม่เกี่ยวข้อง</li></ul></div></div></div>'+
+st(['ล้างมือด้วยสบู่ก่อน-หลังปฏิบัติงานทุกครั้ง','สวมถุงมือก่อนสัมผัสอุปกรณ์ปลอดเชื้อ','หยิบอุปกรณ์ปลอดเชื้อด้วย Forceps เท่านั้น','ปิดฝาเข็ม/ไซริงค์ทุกครั้งก่อนวางพัก','ฆ่าเชื้ออุปกรณ์ทุกชิ้นตามมาตรฐาน Sterile','เปลี่ยนถุงมือทันทีหากมือลดต่ำกว่าระดับหน้าอก']),
+
+mapico:'<div class="room-tag"><strong>งานหลัก:</strong> เตรียมผิวก่อนทำเลเซอร์พิโค · ช่วยแพทย์ระหว่างยิงเลเซอร์ · ดูแลผิวหลังทำ</div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-A">🔴 A</span><span class="rule-card-title">การเตรียมผิวก่อนทำเลเซอร์พิโค</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ทำความสะอาดใบหน้าลูกค้าอย่างละเอียดก่อนทำหัตถการ</li><li>สแกนหน้าผิวด้วยเครื่องสแกน เพื่อให้แพทย์ประเมินก่อนแนะนำ</li><li>ทายาชาตามขั้นตอน นับเวลา บันทึกเวลาใน OPD</li><li>ถ่ายรูป Before ตามมุมที่กำหนด</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>เริ่มทายาชาก่อนแพทย์ตรวจผิวและสั่ง</li></ul></div></div></div><div class="rule-card"><div class="rule-card-header" onclick="toggle(this)"><span class="rule-severity sev-B">🟠 B</span><span class="rule-card-title">การดูแลผิวหลังทำเลเซอร์พิโค</span><span class="rule-toggle">▾</span></div><div class="rule-card-body"><div class="do-dont"><ul class="do-list"><h4>✓ ต้องทำ</h4><li>ประคบเย็นหลังทำเลเซอร์ทันทีเพื่อลดอาการแดง</li><li>ทาครีมบำรุงและกันแดดตามขั้นตอน</li><li>ถ่ายรูป After ตามมุมที่กำหนด และอัปโหลดในระบบ</li><li>ดูแลทำความสะอาดเครื่อง Pico หลังการใช้งาน</li></ul><ul class="dont-list"><h4>✕ ห้ามทำ</h4><li>ปล่อยลูกค้ากลับโดยไม่ประคบเย็นและทาครีมบำรุง</li><li>รับปากผลลัพธ์แทนแพทย์</li></ul></div></div></div>'+st(['ล้างมือและสวมถุงมือก่อนสัมผัสลูกค้าทุกครั้ง','ใช้อุปกรณ์ที่ผ่านการฆ่าเชื้อเท่านั้น','ทำความสะอาดเครื่อง Pico หลังใช้งานตามมาตรฐาน','ทิ้งเวชภัณฑ์ใช้แล้วตามแนวทางของคลินิก'])
+};
+
+// ── ROLES ─────────────────────────────────────────────────────
+var ROLES=[
+{id:'mgr',icon:'👔',name:'ผู้จัดการสาขา',group:'ทีมผู้จัดการ',
+ tabs:['role','principles','appearance','front','room','discipline','kpi','leave','checklist'],first:'s-role',cl:'full',
+ rc:rbox('รับผิดชอบภาพรวมมาตรฐานการบริการ ยอดขาย ความพึงพอใจของแพทย์และลูกค้า รวมถึงสภาพแวดล้อมทั้งหมดในสาขา',['เปิด-ปิดสาขา ตรวจความพร้อมพื้นที่ อุปกรณ์ และเครื่องมือทุกวัน','กำกับดูแลพนักงานทุกตำแหน่งให้ปฏิบัติตามมาตรฐาน','บริหารจัดการคิวนัดและประสานงานกับแพทย์ประจำสาขา','แจ้งข่าวสาร อัปเดตโปรโมชั่น และตั้งเป้าหมายประจำวันให้ทีม','จัดการเงิน นับเงินทอน สรุปยอด และรายงานส่วนกลาง','ดูแลสต็อกยา ตรวจวันหมดอายุ และทำเรื่องเบิกยา','แก้ปัญหาลูกค้า และรายงานเหตุการณ์ผิดปกติ','พัฒนา สอนงาน และประเมินพนักงานในสาขา','ติดต่อประสานงานกับส่วนกลาง (ออฟฟิศ)'],'ต้องทำความเข้าใจหน้าที่ของทุกตำแหน่งในสาขา และสามารถปฏิบัติงานแทนรองผู้จัดการได้เมื่อจำเป็น'),
+ fn:'',room:ROOM.mgr},
+
+{id:'dep-mgr',icon:'👔',name:'รองผู้จัดการสาขา',group:'ทีมผู้จัดการ',
+ tabs:['role','principles','appearance','front','room','discipline','kpi','leave','checklist'],first:'s-role',cl:'partial',
+ rc:rbox('ช่วยผู้จัดการสาขาบริหารจัดการสาขาตามเป้าหมาย สามารถปฏิบัติงานแทนผู้จัดการสาขาได้เต็มรูปแบบ',['เปิด-ปิดสาขา เตรียมเพลง ทีวี น้ำหอม เครื่องพิมพ์ เครื่องรูดบัตร กล้อง ให้พร้อม','ตรวจสอบความถูกต้องของคิวนัดทั้งในสมุดนัดและระบบ','โทรยืนยันคิวนัดลูกค้าให้ครบทุกคิว และสื่อสารให้ทีมทราบ','บริหารจัดการคิวระหว่างวัน จัดลำดับหัตถการ ก่อน-หลัง ให้ผู้ช่วยแพทย์','ตัดสต็อกยา นับยา นับ Shot Hifu ทุกสิ้นวัน','จัดการเงิน สรุปยอด ฝากเงิน และส่งเอกสารส่วนกลาง','ดูแล ชื่นชม และตักเตือนพนักงานตามหลักที่บริษัทกำหนด','ดูแลติดตามลูกค้าหลังรับบริการ และเชิญลูกค้าที่ห่างหายกลับมา'],'ต้องเข้าใจหน้าที่ผู้จัดการสาขาอย่างถ่องแท้ เพื่อสามารถปฏิบัติงานแทนได้'),
+ fn:'',room:ROOM.mgr},
+
+{id:'asst-mgr',icon:'👔',name:'ผู้ช่วยผู้จัดการสาขา',group:'ทีมผู้จัดการ',
+ tabs:['role','principles','appearance','front','room','discipline','kpi','leave','checklist'],first:'s-role',cl:'basic',
+ rc:rbox('ช่วยเหลือผู้จัดการและรองผู้จัดการสาขา ดูแลงานหน้าเคาน์เตอร์ และประสานงานภายในสาขา',['รับชำระเงิน ออกใบเสร็จ และตรวจสอบยอดประจำวัน','ทำ Review เช็คอิน ซักประวัติลูกค้า ทำประวัติลูกค้าใหม่ ส่งตรวจ','บริหารจัดการนัดหมายและแจ้งคิวให้ทีมทราบทุกคิว','ให้ข้อมูลเวลารอคิวกับลูกค้าระหว่างรอ ไม่ให้ลูกค้ารออย่างไม่รู้เรื่อง','เสิร์ฟน้ำ เครื่องดื่ม ดูแลความสะดวกสบายลูกค้าระหว่างรอ','ถ่ายรูป OPD บันทึกเบอร์โทรลูกค้าใหม่ อัปโหลดในระบบ','ช่วยแปะยาชาในกรณีที่ผู้ช่วยแพทย์ทุกคนอยู่ระหว่างช่วยแพทย์','แจ้งซ่อมเมื่อเกิดเหตุขัดข้อง เช่น น้ำไม่ไหล ไฟดับ อุปกรณ์ชำรุด','ดูแลความสะอาดพื้นที่เมื่อไม่มีแม่บ้าน'],'ต้องเข้าใจหน้าที่ของรองผู้จัดการสาขา เพื่อสามารถปฏิบัติงานแทนได้'),
+ fn:'',room:ROOM.mgr},
+
+{id:'coord',icon:'🖥️',name:'ประสานงานคลินิก',group:'กลุ่มหน้าสาขา',
+ tabs:['role','principles','appearance','front','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ดูแลงานเอกสาร จัดการข้อมูลลูกค้าในระบบ รับชำระเงิน และประสานงานระหว่างทีมกับลูกค้า',['ต้อนรับลูกค้าด้วยความสุภาพ ดูแลความสะดวกสบายระหว่างรอ','รับชำระเงิน ออกใบเสร็จ แจ้งโปรโมชั่นบัตรเครดิต สรุปยอดประจำวัน','ทำประวัติลูกค้าใหม่ อัปเดตข้อมูลสุขภาพในระบบ','จัดทำนัดหมาย ออกบัตรนัด ส่ง SMS แจ้งเตือนครบกำหนด','อธิบายขั้นตอนการปฏิบัติตัวหลังทำหัตถการและวิธีรับประทานยา','แจ้งสิทธิพิเศษ โปรโมชั่น และชวนลูกค้าประเมินความพึงพอใจ','รับโทรศัพท์ ตอบ Line ลูกค้าในวันที่ผู้จัดการหรือ BA หยุดงาน','โทรติดตามอาการลูกค้าในวันถัดไปหลังเข้ารับบริการ','เตรียม Consent form และเอกสารต่างๆ ตามรายการที่แพทย์ต้องใช้'],''),
+ fn:snote('ดูแลงานเอกสารและระบบข้อมูลลูกค้า · รับชำระเงินและออกใบเสร็จ · จัดทำนัดหมายและแจ้งเตือน · รับโทรศัพท์และ Line ลูกค้า'),room:''},
+
+{id:'front-laser',icon:'🤝',name:'ฟร้อนเลเซอร์ขน',group:'กลุ่มหน้าสาขา',
+ tabs:['role','principles','appearance','front','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ดูแลลูกค้าที่มาทำเลเซอร์กำจัดขนตั้งแต่ต้อนรับจนส่งกลับ บันทึกข้อมูล และประสานงานกับทีมนักกายภาพ',['ต้อนรับลูกค้าด้วยความสุภาพ ตรวจสอบนัดหมายและยืนยันชื่อบริการ','จัดพิมพ์ OPD กรอกข้อมูลคอร์สและบริการให้ครบถ้วน','อัปเดตข้อมูลสุขภาพ เช่น ประวัติแพ้ยา ข้อห้ามทำเลเซอร์','สอบถามและบันทึกข้อมูลเบื้องต้น: สภาพผิว อาการแพ้ การใช้ยา','แนะนำขั้นตอนการทำเลเซอร์ ผลลัพธ์ที่คาดหวัง และข้อควรระวัง','ส่งต่อข้อมูลให้นักกายภาพอย่างรอบคอบก่อนลูกค้าเข้าห้อง','ให้คำแนะนำการดูแลผิวหลังทำเลเซอร์อย่างละเอียด','นัดหมายครั้งถัดไปและแจ้งลูกค้าทาง Line หรือโทรศัพท์','โทรติดตามผลในวันถัดไปเพื่อประเมินอาการ','สนับสนุนงานทีมอื่นตามความเหมาะสม เช่น ช่วยเคาน์เตอร์เมื่อมีลูกค้าเยอะ'],'ห้ามให้คำแนะนำด้านการรักษาหรือรับปากผลลัพธ์แทนแพทย์'),
+ fn:snote('ต้อนรับลูกค้าเลเซอร์กำจัดขน · บันทึก OPD และข้อมูลสุขภาพ · แนะนำขั้นตอนและการดูแลหลังทำ · ประสานงานส่งต่อให้นักกายภาพ'),room:''},
+
+{id:'front-pico',icon:'✨',name:'พนักงานต้อนรับ (พิโค)',group:'กลุ่มหน้าสาขา',
+ tabs:['role','principles','appearance','front','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ดูแลลูกค้าที่มาทำเลเซอร์พิโค (รักษาฝ้า กระ หลุมสิว รอยแผลเป็น) ตั้งแต่ต้อนรับจนส่งกลับ',['ต้อนรับลูกค้าพิโคและตรวจสอบนัดหมาย','บันทึก OPD และอัปเดตข้อมูลสุขภาพเบื้องต้น','แนะนำขั้นตอนการทำเลเซอร์พิโคและผลลัพธ์ที่คาดหวัง','แนะนำวิธีใช้ยาและการดูแลผิวหลังทำเลเซอร์','จัดทำนัดหมายครั้งถัดไป และโทรติดตามผล','หากไม่มีลูกค้าพิโค ช่วยงานหน้าเคาน์เตอร์ปกติ'],'ห้ามให้คำแนะนำด้านการรักษาหรือรับปากผลลัพธ์แทนแพทย์'),
+ fn:snote('ดูแลลูกค้าเลเซอร์พิโคเป็นหลัก · บันทึก OPD และนัดหมาย · แนะนำวิธีดูแลและการใช้ยาหลังทำ · หากไม่มีลูกค้าพิโคให้ช่วยงานหน้าเคาน์เตอร์'),room:''},
+
+{id:'interp',icon:'🌐',name:'ล่าม (Beauty Advisor)',group:'กลุ่มหน้าสาขา',
+ tabs:['role','principles','appearance','front','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('แปลภาษาระหว่างแพทย์ พนักงาน และลูกค้าต่างชาติ ดูแลลูกค้าต่างชาติตลอดกระบวนการบริการ',['แปลภาษาต่อเนื่อง (ไทย-อังกฤษ หรือภาษาอื่น) ระหว่างแพทย์ พนักงาน และลูกค้า','ช่วยแพทย์ซักประวัติลูกค้าต่างชาติ และอธิบายผลประเมินหัตถการอย่างละเอียด','สนับสนุนการแปลข้อความทาง Line หรือโซเชียลมีเดียของคลินิก','อำนวยความสะดวก check-in / check-out และประสานงานนัดหมาย','ดูแลลูกค้าระหว่างรอ ให้ข้อมูลเบื้องต้นที่ถูกต้อง','เช็คประวัติ ซักประวัติ ทำประวัติลูกค้า ส่งตรวจ','รับชำระเงิน คีย์บิล ออกใบเสร็จ','โทรติดตามผลหลังทำหัตถการ นัดหมายลูกค้ามาติดตามผล','ช่วยแปะยาชาเบื้องต้นในกรณีผู้ช่วยแพทย์ไม่เพียงพอ','พาลูกค้าไปกดเงินสด ATM เมื่อลูกค้าต้องการ'],'ห้ามรับปากหรือยืนยันผลการรักษาแทนแพทย์ — แปลตามที่แพทย์พูดเท่านั้น ไม่เพิ่มหรือลดข้อมูล'),
+ fn:snote('แปลภาษาต่อเนื่อง (ไทย-อังกฤษ) ระหว่างแพทย์ พนักงาน และลูกค้าต่างชาติ · เข้าร่วมในห้องหัตถการตอนหมอให้คำปรึกษา · ช่วยซักประวัติและอธิบายผลประเมินให้ลูกค้า · รับชำระเงิน คีย์บิล ออกใบเสร็จ · ห้ามรับปากหรือยืนยันผลการรักษาแทนแพทย์'),room:''},
+
+{id:'sp',icon:'💆',name:'นักกายภาพ SP',group:'กลุ่มหัตถการ',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ผู้เชี่ยวชาญการใช้เครื่องยกกระชับ Ultraformer และเครื่องสลายไขมัน Coolsculpting',['ตรวจสอบ Software และเตรียมเครื่อง Ultraformer III/MPT/Volnewmer ก่อนใช้งานทุกวัน','ทำ Test Shot Ultraformer ก่อนให้บริการลูกค้าทุกวัน','ตรวจสอบหัว Treatment, Cooling Pads, แผน Gel และ Stock Coolsculpting','ให้บริการ Ultraformer และ Coolsculpting ตามที่ได้รับมอบหมาย','อธิบายขั้นตอน ผลลัพธ์ที่คาดหวัง และการดูแลตัวเองให้ลูกค้า','บันทึกจำนวน Shot ในระบบและรายงาน Shot คงเหลือ','ประเมินความพึงพอใจและบันทึกอาการหลังทำทุกเคส','แจ้งเบิกอุปกรณ์ Coolsculpting เมื่อใกล้หมด'],''),
+ fn:'',room:ROOM.sp},
+
+{id:'ls',icon:'🔦',name:'นักกายภาพ LS',group:'กลุ่มหัตถการ',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ผู้เชี่ยวชาญการให้บริการเลเซอร์กำจัดขน ดูแลเครื่อง Light B Evo และ Cryo 6/7',['ตรวจสอบ Light B Evo และ Cryo 6/7 ก่อน-หลังใช้งานทุกวัน','ให้บริการเลเซอร์กำจัดขนตามแผนที่ได้รับมอบหมาย','ประเมินเส้นขนและผิวหนังเบื้องต้นก่อนให้บริการทุกเคส','ให้ข้อมูลและคำแนะนำก่อน-หลังทำหัตถการอย่างถูกต้อง','บันทึกจำนวน Shot Laser และวัสดุสิ้นเปลืองในระบบทุกวัน','ละลายน้ำแข็งและเทน้ำทิ้งจาก Cryo 6/7 อย่างถูกต้อง','แจ้งเบิกวัสดุเมื่อใกล้หมด ไม่รอให้หมดก่อน','ช่วยงานหน้าเคาน์เตอร์ตามความเหมาะสมเมื่อมีเวลาว่าง'],''),
+ fn:'',room:ROOM.ls},
+
+{id:'lsp',icon:'⚡',name:'นักกายภาพ LSP',group:'กลุ่มหัตถการ',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ผู้เชี่ยวชาญครบวงจร ให้บริการได้ทั้งเครื่องยกกระชับ Ultraformer, Coolsculpting และเลเซอร์กำจัดขน',['ตรวจสอบ Software เครื่อง Ultraformer และทำ Test Shot ทุกวัน','ตรวจสอบ Light B Evo และ Cryo 6/7 ก่อน-หลังใช้งาน','ตรวจนับ Stock ทั้ง Coolsculpting, Gel Pads และวัสดุเลเซอร์','ให้บริการหัตถการครบทุกประเภทที่ได้รับมอบหมาย','บันทึก Shot ทุกเครื่องในระบบทุกเคส','อธิบายขั้นตอน ผลลัพธ์ และการดูแลตัวเองให้ลูกค้า','แจ้งเบิกอุปกรณ์เมื่อใกล้หมด','ประสานงานกับแพทย์ ผู้ช่วยแพทย์ และทีมต้อนรับอย่างมีประสิทธิภาพ','ช่วยงานหน้าเคาน์เตอร์ตามความเหมาะสมเมื่อมีเวลาว่าง'],''),
+ fn:'',room:ROOM.lsp},
+
+{id:'nurse',icon:'👩‍⚕️',name:'พยาบาล',group:'กลุ่มหัตถการ',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('ให้บริการ IV Drip วิตามิน ปากกาลดน้ำหนัก และช่วยแพทย์ในห้องหัตถการ ภายใต้มาตรฐานการพยาบาลที่เข้มงวด',['ทบทวนชื่อ-นามสกุลและสูตรวิตามินก่อนให้บริการทุกครั้ง','วัดความดัน ชีพจร SpO2 และบันทึกใน OPD ก่อนให้วิตามินทุกครั้ง','ถ่ายรูปแขนทั้งสองข้างก่อนเปิดเส้น และบันทึกลงระบบ','ให้บริการ IV Drip วิตามินสูตรเฉพาะของคลินิก','บริหารยาปากกาลดน้ำหนักตามคำสั่งแพทย์','เฝ้าระวังอาการขณะให้วิตามิน สอบถามอาการที่ 15 นาที','ทำความสะอาดใบหน้าลูกค้า ทายาชา นับเวลา บันทึกใน OPD','เตรียมอุปกรณ์และยาให้ครบก่อนแพทย์เข้าทำหัตถการ','ช่วยแพทย์: ประคบน้ำแข็ง กดซับเลือด ส่งอุปกรณ์','เขียนสูตรวิตามิน Aura Bright / Wellness ไว้ให้ผู้ช่วยแพทย์นับสต็อก','ตรวจนับสต็อกยาและบันทึกในระบบทุกสิ้นวัน','ทำความสะอาดถาด Forceps กรรไกร Mayo ผ้าหม และเตียงฉีด'],'ไม่สวมถุงมือออกนอกห้องหัตถการในกรณีใดๆ ทั้งสิ้น'),
+ fn:'',room:ROOM.nurse},
+
+{id:'shaver',icon:'✂️',name:'ผู้ช่วยโกน',group:'กลุ่มหัตถการ',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('เตรียมผิวลูกค้าก่อนทำเลเซอร์กำจัดขน และสนับสนุนนักกายภาพระหว่างและหลังการให้บริการ',['โกนขนบริเวณที่จะทำเลเซอร์อย่างเบามือและระมัดระวัง','ตรวจสอบบริเวณที่จะทำให้ตรงกับบริการที่ลูกค้าจอง','ช่วยเป่าลมเย็นระหว่างทำเลเซอร์','ทาครีมบำรุงหลังทำเลเซอร์ตามแนวทางของคลินิก','อธิบายข้อควรปฏิบัติหลังทำเลเซอร์ให้ลูกค้าเข้าใจ','เปลี่ยนผ้าปูเตียงและทำความสะอาดพื้นที่หลังจบแต่ละเคส'],'ใช้เฉพาะอุปกรณ์ใช้แล้วทิ้งเท่านั้น ห้ามนำกลับมาใช้ซ้ำโดยเด็ดขาด'),
+ fn:'',room:ROOM.shaver},
+
+{id:'ma',icon:'⚕️',name:'ผู้ช่วยแพทย์',group:'กลุ่มผู้ช่วยแพทย์',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('เตรียมยา อุปกรณ์ และห้องหัตถการ รวมถึงช่วยแพทย์ระหว่างทำหัตถการ ภายใต้มาตรฐานปลอดเชื้อที่เข้มงวด',['ดูแลความสะอาดและปลอดเชื้อของห้องหัตถการ ห้องตรวจ ห้องแปะยาชา ตลอดเวลา','เตรียมยา เวชภัณฑ์ และอุปกรณ์ให้ครบก่อนแพทย์เข้าทุกครั้ง','ตรวจสอบ Lot/Exp/Seal และจัดเรียงยาแบบ FEFO เสมอ','ช่วยแพทย์ระหว่างทำหัตถการ: ประคบน้ำแข็ง กดซับเลือด ส่งอุปกรณ์','ถ่ายรูป Before-After ตามมุมที่กำหนด อัปโหลดในระบบภายในวันเดียวกัน','ตรวจนับสต็อกยา นับ Shot Hifu ทุกสิ้นวัน บันทึกในระบบ','ทำความสะอาด Handpiece หัวเครื่อง Ultraformer/Ulthera/Thermage','เก็บขวดยาที่ใช้ไม่หมดอย่างถูกต้อง ใส่ซองซิป เขียนวันที่ เก็บตู้เย็น','รวบรวมขยะติดเชื้อ ติดป้าย รอส่งตามระบบ'],''),
+ fn:'',room:ROOM.ma},
+
+{id:'ma-pico',icon:'🔬',name:'ผู้ช่วยแพทย์ Pico',group:'กลุ่มผู้ช่วยแพทย์',
+ tabs:['role','principles','appearance','room','discipline','kpi','leave'],first:'s-role',cl:'none',
+ rc:rbox('เตรียมผิวและดูแลลูกค้าก่อน-หลังทำเลเซอร์พิโค รวมถึงช่วยแพทย์ระหว่างยิงเลเซอร์',['ทำความสะอาดใบหน้าลูกค้าก่อนทำหัตถการให้สะอาดหมดจด','สแกนหน้าผิวด้วยเครื่องสแกน เพื่อให้แพทย์ประเมินก่อนแนะนำ','ทายาชา นับเวลาการทายาชา บันทึกเวลาใน OPD','ช่วยแพทย์ระหว่างยิงเลเซอร์พิโค','ประคบเย็นหลังทำเลเซอร์เพื่อลดอาการแดงและระคายเคือง','ทาครีมบำรุงและกันแดดตามขั้นตอนหลังทำเลเซอร์','ดูแลทำความสะอาดเครื่อง Pico หลังการใช้งาน'],'ห้ามให้คำแนะนำด้านการรักษาหรือรับปากผลลัพธ์แทนแพทย์'),
+ fn:'',room:ROOM.mapico}
+];
+
+// ── CHECKLIST ──────────────────────────────────────────────────
+var SHEET_URL='https://script.google.com/macros/s/AKfycbwhjvyfmMuyKYjR_4OPFLUrPZTZetTSXYIPyMuphizJDQ1Sypcw_W34Aiyu8Pa3ZZueTw/exec';
+
+function buildChecklist(level){
+  if(level==='none')return '';
+  var full='<div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">🌅</span><span class="checklist-title">ก่อนเปิดสาขา</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ห้องหัตถการสะอาด ปลอดเชื้อ ไม่มีของส่วนตัว/อาหาร/เครื่องดื่ม</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">Emergency Set อยู่ตำแหน่งที่กำหนด</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">อุปกรณ์และยาพร้อม ตรวจ Lot/Exp/Seal ครบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">เครื่องมือแพทย์ทุกชิ้นพร้อมใช้งาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">เพลง ทีวี น้ำหอมปรับอากาศ เครื่องพิมพ์ เครื่องรูดบัตร พร้อมใช้งาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">คิวนัดประจำวันตรวจสอบและสื่อสารให้ทีมทราบ</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div><div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">☀️</span><span class="checklist-title">ระหว่างวัน (สุ่มตรวจ)</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">พนักงานแต่งกายถูกมาตรฐาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ห้องหัตถการสะอาดระหว่างเคส</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ลูกค้าไม่รอเกิน 20 นาทีโดยไม่ได้รับการสื่อสาร</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">พนักงานสวมถุงมือและปฏิบัติตามมาตรฐานปลอดเชื้อ</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div><div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">🌙</span><span class="checklist-title">หลังปิดสาขา</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ทำความสะอาดปลอดเชื้อเครื่องมือแพทย์ครบทุกชิ้น</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">รวบรวมและติดป้ายขยะติดเชื้อรอส่ง</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ล็อกตู้เย็นยา ตรวจอุณหภูมิ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">สต็อกยาและเวชภัณฑ์ตรงกับระบบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">รูป Before-After อัปโหลดในระบบครบทุกเคส</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">โทรศัพท์ กล้อง แท็บเล็ต เก็บไว้ที่หน้าเคาน์เตอร์</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ปิดไฟ แอร์ ล็อกประตูทุกจุด</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div>';
+  var partial='<div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">🌅</span><span class="checklist-title">ก่อนเปิดสาขา</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ห้องหัตถการสะอาด ปลอดเชื้อ พร้อมใช้งาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">อุปกรณ์และยาพร้อม ตรวจ Lot/Exp/Seal ครบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">เครื่องมือและอุปกรณ์สำนักงานพร้อมใช้งาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">คิวนัดประจำวันตรวจสอบและสื่อสารให้ทีมทราบ</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div><div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">🌙</span><span class="checklist-title">หลังปิดสาขา</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">ทำความสะอาดปลอดเชื้อเครื่องมือแพทย์ครบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">สต็อกยาตรงกับระบบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">รูป Before-After อัปโหลดครบทุกเคส</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">เก็บอุปกรณ์ ล็อกประตู</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div>';
+  var basic='<div class="checklist-wrap"><div class="checklist-header" onclick="toggleChecklist(this)"><span style="font-size:16px">📋</span><span class="checklist-title">รายการตรวจสอบประจำวัน</span><span class="checklist-toggle">▾</span></div><div class="checklist-body"><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">พื้นที่บริการสะอาดเรียบร้อยก่อนเปิดสาขา</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">อุปกรณ์สำนักงานพร้อมใช้งาน</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">คิวนัดประจำวันสื่อสารให้ทีมทราบ</div></div><div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-label">รูป Before-After อัปโหลดครบทุกเคสก่อนปิดสาขา</div></div><div class="checklist-reset" onclick="resetChecklist(this)">↺ รีเซ็ต</div></div></div>';
+  var saveForm='<div class="gold-divider">บันทึกผลการตรวจสอบ</div><div style="background:var(--white);border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(13,43,107,0.07);margin-bottom:18px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;"><div><label style="font-size:11px;font-weight:600;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">ชื่อผู้จัดการที่ตรวจ</label><input id="inp-manager" type="text" placeholder="ชื่อ-นามสกุล" style="width:100%;padding:9px 12px;border:1px solid rgba(13,43,107,0.15);border-radius:7px;font-family:\'Sarabun\',sans-serif;font-size:13px;outline:none;"></div><div><label style="font-size:11px;font-weight:600;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">ชื่อสาขา</label><input id="inp-branch" type="text" placeholder="ชื่อสาขา" style="width:100%;padding:9px 12px;border:1px solid rgba(13,43,107,0.15);border-radius:7px;font-family:\'Sarabun\',sans-serif;font-size:13px;outline:none;"></div><div><label style="font-size:11px;font-weight:600;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">ชื่อผู้ถูกตรวจสอบ</label><input id="inp-inspected" type="text" placeholder="ชื่อ-นามสกุล" style="width:100%;padding:9px 12px;border:1px solid rgba(13,43,107,0.15);border-radius:7px;font-family:\'Sarabun\',sans-serif;font-size:13px;outline:none;"></div><div><label style="font-size:11px;font-weight:600;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">ช่วงเวลาที่ตรวจ</label><select id="inp-period" style="width:100%;padding:9px 12px;border:1px solid rgba(13,43,107,0.15);border-radius:7px;font-family:\'Sarabun\',sans-serif;font-size:13px;outline:none;background:white;"><option value="">-- เลือกช่วงเวลา --</option><option value="ก่อนเปิดสาขา">🌅 ก่อนเปิดสาขา</option><option value="ระหว่างวัน">☀️ ระหว่างวัน</option><option value="หลังปิดสาขา">🌙 หลังปิดสาขา</option></select></div></div><div style="margin-bottom:12px;"><label style="font-size:11px;font-weight:600;color:var(--gold-dark);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;">หมายเหตุ</label><textarea id="inp-note" placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)" rows="2" style="width:100%;padding:9px 12px;border:1px solid rgba(13,43,107,0.15);border-radius:7px;font-family:\'Sarabun\',sans-serif;font-size:13px;outline:none;resize:none;"></textarea></div><button onclick="saveChecklist()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--navy),var(--navy-soft));color:white;border:none;border-radius:8px;font-family:\'Sarabun\',sans-serif;font-size:14px;font-weight:600;cursor:pointer;">📋 บันทึกผลการตรวจสอบ → Google Sheets</button><div id="save-status" style="text-align:center;font-size:12.5px;margin-top:10px;display:none;"></div></div>';
+  var cl=level==='full'?full:level==='partial'?partial:basic;
+  return '<div class="mgr-note"><h4>✦ Checklist ตรวจสอบมาตรฐานสาขา</h4>ใช้ตรวจสอบและกำกับดูแลมาตรฐานการปฏิบัติงานของทีม</div>'+cl+saveForm;
+}
+
+// ── LOGIC ─────────────────────────────────────────────────────
+var groupOrder=[];
+var dragSrcGroup=null;
+
+function buildRoleScreen(){
+  var c=document.getElementById('role-groups-container');
+  c.innerHTML='';
+  var groups={};
+  var groupList=[];
+  ROLES.forEach(function(r,i){
+    if(!groups[r.group]){groups[r.group]=[];groupList.push(r.group);}
+    groups[r.group].push({r:r,i:i});
+  });
+  var uniqueGroups=groupList.filter(function(v,i,a){return a.indexOf(v)===i;});
+  if(groupOrder.length===0) groupOrder=uniqueGroups;
+  groupOrder.forEach(function(g){
+    if(!groups[g])return;
+    var sec=document.createElement('div');
+    sec.className='role-group-section';
+    sec.draggable=true;
+    sec.dataset.group=g;
+    sec.style.cursor='default';
+    var grid=groups[g].map(function(x){
+      return '<div class="role-btn" onclick="selectRole('+x.i+')"><span class="drag-handle" onclick="event.stopPropagation()">⠿</span><span class="r-icon">'+x.r.icon+'</span><div class="r-name">'+x.r.name+'</div></div>';
+    }).join('');
+    sec.innerHTML='<div class="role-group-label" style="cursor:grab;user-select:none;">⠿ '+g+'</div><div class="role-grid">'+grid+'</div>';
+    sec.addEventListener('dragstart',function(e){
+      dragSrcGroup=g;
+      setTimeout(function(){sec.style.opacity='0.4';},0);
+      e.dataTransfer.effectAllowed='move';
+    });
+    sec.addEventListener('dragend',function(){sec.style.opacity='1';dragSrcGroup=null;});
+    sec.addEventListener('dragover',function(e){e.preventDefault();sec.style.outline='2px solid var(--gold)';sec.style.borderRadius='8px';});
+    sec.addEventListener('dragleave',function(){sec.style.outline='';});
+    sec.addEventListener('drop',function(e){
+      e.preventDefault();sec.style.outline='';
+      if(!dragSrcGroup||dragSrcGroup===g)return;
+      var fromIdx=groupOrder.indexOf(dragSrcGroup);
+      var toIdx=groupOrder.indexOf(g);
+      groupOrder.splice(fromIdx,1);
+      groupOrder.splice(toIdx,0,dragSrcGroup);
+      buildRoleScreen();
+    });
+    c.appendChild(sec);
+  });
+}
+
+function selectRole(ri){
+  var r=ROLES[ri];
+  document.getElementById('role-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('pill-icon').textContent=r.icon;
+  document.getElementById('pill-group').textContent=r.group;
+  document.getElementById('pill-name').textContent=r.name;
+  document.getElementById('role-content-area').innerHTML=r.rc||'';
+  document.getElementById('front-special-note').innerHTML=r.fn||'';
+  document.getElementById('room-content-area').innerHTML=r.room||'';
+  document.getElementById('checklist-content-area').innerHTML=buildChecklist(r.cl);
+  var all=['role','principles','appearance','front','room','discipline','kpi','leave','checklist','benefits','resign'];
+  all.forEach(function(t){
+    var tab=document.getElementById('tab-'+t);
+    if(tab){
+      // benefits and resign always visible
+      if(t==='benefits'||t==='resign'){tab.classList.remove('hidden');}
+      else{r.tabs.indexOf(t)>=0?tab.classList.remove('hidden'):tab.classList.add('hidden');}
+    }
+  });
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById(r.first).classList.add('active');
+  var ft=document.getElementById('tab-'+r.first.replace('s-',''));
+  if(ft)ft.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function backToRoles(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('role-screen').style.display='flex';
+  window.scrollTo(0,0);
+}
+function showSection(id,tab){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById(id).classList.add('active');tab.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggle(h){var b=h.nextElementSibling;var a=h.querySelector('.rule-toggle');b.classList.toggle('open');a.classList.toggle('open');}
+function toggleChecklist(hdr){var b=hdr.nextElementSibling;var a=hdr.querySelector('.checklist-toggle');b.classList.toggle('open');a.classList.toggle('open');}
+function toggleCheck(item){item.querySelector('.check-box').classList.toggle('checked');item.querySelector('.check-label').classList.toggle('checked');}
+function resetChecklist(btn){var body=btn.closest('.checklist-body');body.querySelectorAll('.check-box').forEach(function(b){b.classList.remove('checked');});body.querySelectorAll('.check-label').forEach(function(l){l.classList.remove('checked');});}
+function saveChecklist(){
+  var mgr=document.getElementById('inp-manager').value.trim();
+  var branch=document.getElementById('inp-branch').value.trim();
+  var insp=document.getElementById('inp-inspected').value.trim();
+  var period=document.getElementById('inp-period').value;
+  var note=document.getElementById('inp-note').value.trim();
+  var status=document.getElementById('save-status');
+  if(!mgr||!branch||!insp||!period){status.style.display='block';status.style.color='#C0392B';status.textContent='⚠️ กรุณากรอกข้อมูลให้ครบทุกช่องก่อนบันทึก';return;}
+  var passed=[],failed=[];
+  document.querySelectorAll('.check-item').forEach(function(item){
+    var box=item.querySelector('.check-box');var label=item.querySelector('.check-label');
+    if(box&&label){if(box.classList.contains('checked'))passed.push(label.textContent);else failed.push(label.textContent);}
+  });
+  var now=new Date();var datetime=now.toLocaleDateString('th-TH')+' '+now.toLocaleTimeString('th-TH');
+  var data={datetime:datetime,manager:mgr,branch:branch,inspected:insp,period:period,passed:passed.join(' | '),failed:failed.join(' | '),note:note};
+  status.style.display='block';status.style.color='var(--navy)';status.textContent='⏳ กำลังบันทึก...';
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify(data)})
+    .then(function(){status.style.color='#1A7A4A';status.textContent='✅ บันทึกเรียบร้อยแล้ว! ข้อมูลเข้า Google Sheets แล้ว';document.getElementById('inp-manager').value='';document.getElementById('inp-branch').value='';document.getElementById('inp-inspected').value='';document.getElementById('inp-period').value='';document.getElementById('inp-note').value='';})
+    .catch(function(){status.style.color='#C0392B';status.textContent='❌ เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';});
+}
+
+buildRoleScreen();
+</script>
+</body>
+</html>
